@@ -38,5 +38,6 @@ void	search_s_quote(char *str, t_list *list, int i);
 char	*ft_substr(char *s, int start, int len);
 char	*ft_strchr(char *s, int c);
 char	*ft_strdup(char *s1);
-char 	*ft_strcat(char *dest, char *src);
+int		pass(char *str, t_list *list, int i, int k);
+int		pass2(char *str, t_list *list, int i, int k);
 #endif

@@ -5,7 +5,9 @@ int	size_of_cmd2(char *str, t_list *list)
 	int	i;
 	int	counter;
 	int flag;
+	int	k;
 
+	k = -1;
 	i = 0;
 	counter = 0;
 	while (str[i])
@@ -13,16 +15,32 @@ int	size_of_cmd2(char *str, t_list *list)
 		flag = 0;
 		search_quotations(str, list, i);
 		search_s_quote(str, list, i);
+		if (list->start_of_quotation != -1 && list->end_of_quotation != -2 && list->start_of_quotation - 1 != ' ')
+			k = list->start_of_quotation - 1;
+		if (k == i)
+		{
+			printf("%di\n", i);
+			printf("%dk\n", k);
+			perror("a");
+			i = pass(str, list, i, k);
+			counter += 1;
+		}
 		if (i >= list->start_of_quote && i <= list->end_of_quote)
 		{
 			while (i >= list->start_of_quote && i <= list->end_of_quote)
 				i++;
 			counter += 1;
-			flag = 1;
 		}
-		else if (is_that(str[i]) && (i < list->start_of_quote))
+		else if (is_that(str[i]) && (i < list->start_of_quote) && str[i - 1] == ' ')
 		{
 			i++;
+			if (is_that(str[i]))
+				i++;
+			if (str[i] == ' ')
+			{
+				while (str[i + 1] == ' ')
+					i++;
+			}
 			flag = 1;
 		}
 		if (i >= list->start_of_quotation && i <= list->end_of_quotation)
@@ -30,17 +48,50 @@ int	size_of_cmd2(char *str, t_list *list)
 			while (i >= list->start_of_quotation && i <= list->end_of_quotation)
 				i++;
 			counter += 1;
-			flag = 1;
 		}
-		else if (is_that(str[i]) && (i < list->start_of_quotation))
+		else if (is_that(str[i]) && (i < list->start_of_quotation) && str[i - 1] == ' ')
 		{
 			i++;
+			if (is_that(str[i]))
+				i++;
+			if (str[i] == ' ')
+			{
+				while (str[i + 1] == ' ')
+					i++;
+			}
 			flag = 1;
 		}
-		if (str[i] == ' ' && flag == 0)
+		if (list->start_of_quotation != -1 && list->end_of_quotation != -2 && list->start_of_quotation - 1 != ' ')
+			k = list->end_of_quotation + 1;
+		if (k == i)
+		{
+			perror("b");
+			i = pass2(str, list, i, k);
 			counter += 1;
+		}
+		if (str[i] == ' ' && flag == 0)
+		{
+			while (str[i] == ' ')
+				i++;
+			counter += 1;
+			i--;
+		}
 		i++;
 	}
+	i = ft_strlen(str) - 1;
+	if (is_that(str[i]))
+	{
+		i--;
+		if (is_that(str[i]))
+		{
+			i--;
+			if (str[i] == ' ')
+				counter -= 1;
+		}
+		else if (str[i] == ' ')
+			counter -= 1;
+	}
+	printf("%db\n", counter);
 	return (counter);
 }
 void	search_quotations(char *str, t_list *list, int i)
@@ -91,4 +142,23 @@ void	search_s_quote(char *str, t_list *list, int i)
 			break;
 		i++;
 	}
+}
+
+int	pass(char *str, t_list *list, int i, int k)
+{
+	while (str[k] != ' ')
+			k--;
+	if (i == k)
+	{
+		while (i <= k)
+			i++;
+	}
+	return (i);
+}
+
+int pass2(char *str, t_list *list, int i, int k)
+{
+	while (str[k] != ' ')
+		i++;
+	return (i);
 }

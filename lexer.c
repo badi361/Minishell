@@ -7,7 +7,9 @@ void	lexer(t_list *list)
 	if (!ft_strlen(list->trimmed))
 		return ;
 	list->meta_size = size_of_cmd(list->trimmed);
-	list->meta_size = list->meta_size + size_of_cmd2(list->str, list);
+	list->meta_size = list->meta_size + size_of_cmd2(list->trimmed, list);
+	list->holder = malloc(sizeof(char *) * (list->meta_size + 1));
+	//post_cmd(list);
 }
 
 int	size_of_cmd(char *str)
@@ -73,3 +75,5 @@ void	pass_text(char *str, int *i)
 			*i += 1;
 	}
 }
+
+//void	post_cmd()
