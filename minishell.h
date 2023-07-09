@@ -39,5 +39,5 @@ char	*ft_substr(char *s, int start, int len);
 char	*ft_strchr(char *s, int c);
 char	*ft_strdup(char *s1);
 int		pass(char *str, t_list *list, int i, int k);
-int		pass2(char *str, t_list *list, int i, int k);
+int		pass2(char *str, t_list *list, int i);
 #endif

@@ -10,18 +10,20 @@ int	size_of_cmd2(char *str, t_list *list)
 	k = -1;
 	i = 0;
 	counter = 0;
-	while (str[i])
+	while (str[i])// quotation yaptım gibi. quote içinde uygula
 	{
 		flag = 0;
 		search_quotations(str, list, i);
 		search_s_quote(str, list, i);
-		if (list->start_of_quotation != -1 && list->end_of_quotation != -2 && list->start_of_quotation - 1 != ' ')
-			k = list->start_of_quotation - 1;
+		if (list->start_of_quotation != -1 && list->end_of_quotation != -2 && str[list->start_of_quotation - 1] != ' ')
+		{
+			k = list->start_of_quotation;
+			while (str[k] != ' ')
+				k--;
+			k++;
+		}
 		if (k == i)
 		{
-			printf("%di\n", i);
-			printf("%dk\n", k);
-			perror("a");
 			i = pass(str, list, i, k);
 			counter += 1;
 		}
@@ -31,7 +33,7 @@ int	size_of_cmd2(char *str, t_list *list)
 				i++;
 			counter += 1;
 		}
-		else if (is_that(str[i]) && (i < list->start_of_quote) && str[i - 1] == ' ')
+		else if (is_that(str[i]) && (i < list->start_of_quote || i > list->end_of_quote) && str[i - 1] == ' ')
 		{
 			i++;
 			if (is_that(str[i]))
@@ -49,24 +51,28 @@ int	size_of_cmd2(char *str, t_list *list)
 				i++;
 			counter += 1;
 		}
-		else if (is_that(str[i]) && (i < list->start_of_quotation) && str[i - 1] == ' ')
+		else if (is_that(str[i]) && (i < list->start_of_quotation || i > list->end_of_quotation) && (str[i - 1] == ' ' || i == 0))
 		{
 			i++;
 			if (is_that(str[i]))
 				i++;
 			if (str[i] == ' ')
 			{
-				while (str[i + 1] == ' ')
+				while (str[i] == ' ')
 					i++;
 			}
 			flag = 1;
 		}
-		if (list->start_of_quotation != -1 && list->end_of_quotation != -2 && list->start_of_quotation - 1 != ' ')
-			k = list->end_of_quotation + 1;
-		if (k == i)
+		if (list->start_of_quotation != -1 && list->end_of_quotation != -2 && str[list->end_of_quotation + 1] != ' ')
 		{
-			perror("b");
-			i = pass2(str, list, i, k);
+			k = list->end_of_quotation;
+			while (str[k] != ' ')
+				k++;
+			k--;
+		}	
+		if (i == list->end_of_quotation + 1 && str[list->end_of_quotation + 1] != ' ')
+		{
+			i = pass2(str, list, i);
 			counter += 1;
 		}
 		if (str[i] == ' ' && flag == 0)
@@ -146,19 +152,14 @@ void	search_s_quote(char *str, t_list *list, int i)
 
 int	pass(char *str, t_list *list, int i, int k)
 {
-	while (str[k] != ' ')
-			k--;
-	if (i == k)
-	{
-		while (i <= k)
-			i++;
-	}
+	while (i <= k)
+		i++;
 	return (i);
 }
 
-int pass2(char *str, t_list *list, int i, int k)
+int pass2(char *str, t_list *list, int i)
 {
-	while (str[k] != ' ')
+	while (str[i] != ' ' && str[i])
 		i++;
 	return (i);
 }
