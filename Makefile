@@ -1,4 +1,4 @@
-SRCS		=		minishell.c check.c routine.c list_foncs.c utils.c
+SRCS		=		minishell.c check.c routine.c list_foncs.c utils.c utils2.c
 
 LIBFT		=		libft/libft.a
 

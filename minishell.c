@@ -16,6 +16,7 @@ void	malloc_env(char **env)
 		i++;
 	}
 	g_var.env[i] = NULL;
+	g_var.exit_code = 0;
 }
 
 int	routine(char *str)
@@ -25,7 +26,30 @@ int	routine(char *str)
 		free(str);
 		return (1);
 	}
+	link_list *i;
+	i = g_var.list;
+	printf("-------------------\n");
+	while(i)
+	{
+		printf("%s     ", i->content);
+		printf("----%c----\n", i->flag);
+		i = i->next;
+	}
+	printf("-------------------\n");
 	return (0);
+}
+
+char	*handle_regular(char *str, int *index)
+{
+	int		i;
+	char	*result;
+
+	i = *index;
+	while (str[i] && !is_it_special(str[i]) && str[i] != 34 && str[i] != 39)
+		i++;
+	result = ft_strdup_v2(str, *index, i);
+	*index = i;
+	return (result);
 }
 
 int	main(int ac, char **av, char **env)
