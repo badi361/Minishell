@@ -48,7 +48,7 @@ int			ft_strncmp_v3(const char *s1, const char *s2, size_t n);
 char		*handle_regular(char *str, int *index);
 void		undefined_parsel(int *i);
 char		*get_dolar(char *str, char c);
-char		*get_env_var(int k, int *i, int *j, char **env);
+char		*get_env_var(char *str, int *i, int *j, char **env);
 int			ft_strlen_v2(char *str, char q, int i);
 
 #endif

@@ -18,7 +18,6 @@ int	lexer_parsel(char *str)
 		}
 		else if (g_var.str[i] && g_var.str[i] != ' ' && g_var.str[i] != 9)
 			undefined_parsel(&i);
-		i++;
 	}
 	return (0);
 }
@@ -86,8 +85,11 @@ char	*get_dolar(char *str, char c)
 		result = ft_strjoin_v3(result, ft_strdup_v2(str, j, i));
 		if (str[i] == '$')
 		{
+			i++;
+			while (str[i] == '$')
+				i++;
 			dollar_help(i);
-			env = get_env_var(i + 1, &i, &j, g_var.env);
+			env = get_env_var(&str[i], &i, &j, g_var.env);
 			if (env)
 				result = ft_strjoin_v3(result, env);
 		}
@@ -96,27 +98,27 @@ char	*get_dolar(char *str, char c)
 	return (result);
 }
 
-char	*get_env_var(int k, int *i, int *j, char **env)
+char	*get_env_var(char *str, int *i, int *j, char **env)
 {
 	int	len;
-	int	size;
+	int	k;
 
-	size = k;
-	if (g_var.str[k] == '\0')
+	k = 0;
+	if (str[k] == '\0')
 		return (only_dolar());
-	if (g_var.str[k] == '?')
+	if (str[k] == '?')
 	{
 		*i += 1;
 		return (ft_itoa(g_var.exit_code));
 	}
-	while (ft_isalnum(g_var.str[k]))
+	while (ft_isalnum(str[k]))
 		k++;
 	*j = *i;
-	*i = k;
+	*i += k;
 	len = *i - *j;
 	while (*env)
 	{
-		if (ft_strncmp_v3(&g_var.str[size], *env, len) == 0 && (*env)[len] == '=')
+		if (ft_strncmp_v3(&str[0], *env, len) == 0 && (*env)[len] == '=')
 			break ;
 		env++;
 	}
