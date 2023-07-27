@@ -26,6 +26,11 @@ int	routine(char *str)
 		free(str);
 		return (1);
 	}
+	if (rdr_pipe_check() || rdr_pipe_check_v3() || get_commands())
+	{
+		free(str);
+		return (2);
+	}
 	link_list *i;
 	i = g_var.list;
 	printf("-------------------\n");

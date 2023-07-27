@@ -27,3 +27,64 @@ int	check_quote(char *str)
 	}
 	return (0);
 }
+
+int	rdr_pipe_check(void)
+{
+	link_list *tmp;
+
+	tmp = g_var.list;
+	while (tmp)
+	{
+		if (tmp->flag == '<' || tmp->flag == '>')
+			if (tmp->next == NULL)
+				return (rdr_pipe_return());
+		if (tmp->content[0] == '<' || tmp->content[0] == '>')
+			if (tmp->next->content[0] == '|')
+				return (rdr_pipe_return());
+		if (tmp->content[0] == '<' && tmp->content[1] == '<')
+			if (tmp->next == NULL)
+				return (rdr_pipe_return());
+		if (tmp->content[0] == '>' && tmp->content[1] == '>')
+			if (tmp->next == NULL)
+				return (rdr_pipe_return());
+		if (rdr_pipe_check_v2())
+			return (rdr_pipe_return());
+		tmp = tmp->next;
+	}
+	return (0);
+}
+
+int	rdr_pipe_check_v2(void)
+{
+	link_list *tmp;
+
+	tmp = g_var.list;
+	while (tmp)
+	{
+		if (tmp->flag == '|')
+			if (tmp->next != NULL)
+				if (tmp->next->flag == '<' || tmp->next->flag == '>')
+					return (1);
+		tmp = tmp->next;
+	}
+	return (0);
+}
+
+int	rdr_pipe_check_v3(void)
+{
+	link_list *tmp;
+
+	tmp = g_var.list;
+	if (tmp)
+		if (tmp->content[0] == '|')
+			return (rdr_pipe_return_v2('|'));
+	while (tmp)
+	{
+		if (tmp->flag == '<' && (tmp->next->flag == '>' || tmp->next->flag == '<'))
+			return (rdr_pipe_return_v2('<'));
+		else if (tmp->flag == '>' && (tmp->next->flag == '<' || tmp->next->flag == '>'))
+			return (rdr_pipe_return_v2('>'));
+		tmp = tmp->next;
+	}
+	return (0);
+}

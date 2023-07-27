@@ -41,3 +41,10 @@ int	ft_strlen_v2(char *str, char q, int i)
 		i++;
 	return (i);
 }
+
+int	rdr_pipe_return(void)
+{
+	printf("minishell: syntax error near unexpected token `newline'\n");
+	g_var.exit_code = 258;
+	return (1);
+}
