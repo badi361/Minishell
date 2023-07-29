@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-int	check_quote(char *str)
+int	check_quote(char *str) // tırnak açıldığında kapanması da lazım bunu kontrol ediyorum.
 {
 	int	i;
 	char c;
@@ -28,7 +28,7 @@ int	check_quote(char *str)
 	return (0);
 }
 
-int	rdr_pipe_check(void)
+int	rdr_pipe_check(void) // hata kontrolleri
 {
 	link_list *tmp;
 
@@ -70,13 +70,13 @@ int	rdr_pipe_check_v2(void)
 	return (0);
 }
 
-int	rdr_pipe_check_v3(void)
+int	rdr_pipe_check_v3(void) // hata kontrolleri
 {
 	link_list *tmp;
 
 	tmp = g_var.list;
 	if (tmp)
-		if (tmp->content[0] == '|')
+		if (tmp->flag == '|')
 			return (rdr_pipe_return_v2('|'));
 	while (tmp)
 	{

@@ -1,0 +1,8 @@
+//                                            PİPE FONKSİYONU
+// /pipe(int pipefd[2]) = ilk olarak fork ile bir child process oluşturulmalıdır. pide fonksiyonu 2 boyutlu bir int değişken alır.
+// bunların içinde de 2 int lik yer olmalıdır. 0. int veri gerişini temsil eder. yollanan verileri 0. int okur.
+// 1. int ise veri çıkışını temsil eder. Okunan verileri parent process e aktarır.
+// Parent process child process i bu fonksiyona yollar. Child process verileri okuyacak ve Parent process e aktaracaktır./
+
+//                                             HATALAR
+//

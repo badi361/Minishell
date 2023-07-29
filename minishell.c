@@ -31,6 +31,9 @@ int	routine(char *str)
 		free(str);
 		return (2);
 	}
+	rdr_flag();
+	cmd_init();
+	input_to_place();
 	link_list *i;
 	i = g_var.list;
 	printf("-------------------\n");

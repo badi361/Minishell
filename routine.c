@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-int	lexer_parsel(char *str)
+int	lexer_parsel(char *str) // < > | ysa ayrı bunlar değilse ayrı listelere atıyorum. parsel defined fonksiyonuna girmeyenlerin flagini 'b' yapıyorum
 {
 	int i;
 
@@ -44,7 +44,7 @@ int	parsel_defined(int *i, char c)
 	return (0);
 }
 
-void	undefined_parsel(int *i)
+void	undefined_parsel(int *i) // önce tırnak içinde mi kontrol ediyorum. sonrasında dolar var mı eğer varsa dolardan sonra yazılanın karşılığını env tan alıyorum. 
 {
 	int	k;
 	char *result;

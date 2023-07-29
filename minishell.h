@@ -17,8 +17,18 @@ typedef struct z_list
 	char	flag;	
 }			link_list;
 
+typedef struct pipe_var
+{
+	char 	**str;
+	int		f_in;
+	int		f_out;
+	int		size;
+}			pipe_list;
+
 struct s_var
 {
+	pid_t		*pid;
+	pipe_list	**cmds;
 	char		**env;
 	int			env_size;
 	link_list 	*list;
@@ -27,6 +37,9 @@ struct s_var
 	int			dolarflag;
 	int			list_size;
 	char		**array;
+	int			pipe_count;
+	int			**pipe;
+	char		***string_3;
 }	g_var;
 
 void		malloc_env(char **env);
@@ -59,4 +72,11 @@ int			rdr_pipe_return_v2(char c);
 int			rdr_pipe_check_v3(void);
 int			link_lstsize(link_list *lst);
 int			get_commands(void);
+void		rdr_flag(void);
+void		pipe_init(void);
+int			arg_count(void);
+void		cmd_init_help(void);
+void		get_arg(int	*k, link_list **tmp);
+void		cmd_init(void);
+void		input_to_place(void);
 #endif
