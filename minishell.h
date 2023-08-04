@@ -30,6 +30,7 @@ struct s_var
 	pid_t		*pid;
 	pipe_list	**cmds;
 	char		**env;
+	char		**env_path;
 	int			env_size;
 	link_list 	*list;
 	char		*str;
@@ -79,4 +80,8 @@ void		cmd_init_help(void);
 void		get_arg(int	*k, link_list **tmp);
 void		cmd_init(void);
 void		input_to_place(void);
+int			ft_strlen_v3(char *s, char c);
+int			find_path(char *str);
+void		split_env(void);
+void		deneme(void);
 #endif

@@ -34,6 +34,8 @@ int	routine(char *str)
 	rdr_flag();
 	cmd_init();
 	input_to_place();
+	split_env();
+	deneme();
 	link_list *i;
 	i = g_var.list;
 	printf("-------------------\n");
@@ -72,3 +74,27 @@ int	main(int ac, char **av, char **env)
 		routine(g_var.str);
 	}
 }
+
+void	deneme(void)
+{
+	char *str;
+	int i = 0;
+	while (g_var.env_path[i])
+	{
+		str = ft_strjoin(g_var.env_path[i], "/");
+		str = ft_strjoin(str, g_var.cmds[0]->str[0]);
+		if (access(str, 0) == 0)
+		{
+			execve(str, g_var.cmds[0]->str, g_var.env);
+			break ;
+		}
+		free(str);
+		i++;
+	}
+}
+/*		p = fork();
+		if (p == 0)
+		{
+			execve("/bin/ls",&g_var.array[0], g_var.env);
+		}
+	waitpid(1, NULL, 1); */
