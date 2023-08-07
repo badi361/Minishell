@@ -27,6 +27,7 @@ typedef struct pipe_var
 
 struct s_var
 {
+	int			nl_flag;
 	pid_t		*pid;
 	pipe_list	**cmds;
 	char		**env;
@@ -83,5 +84,10 @@ void		input_to_place(void);
 int			ft_strlen_v3(char *s, char c);
 int			find_path(char *str);
 void		split_env(void);
-void		deneme(void);
+void		search_on_env(int k);
+int			agree_cmd(char *str);
+int			search_cmd(void);
+void		ft_echo(int	i);
+int			just_echo(int i);
+int			pass_nl(int k);
 #endif

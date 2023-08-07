@@ -5,4 +5,4 @@
 // Parent process child process i bu fonksiyona yollar. Child process verileri okuyacak ve Parent process e aktaracaktır./
 
 //                                             HATALAR
-//
+//minishell: de echo -n lı komutları yazdırdıktan sonra üst tuşa bastığımda minishell: silinebiliyo dikkat et
