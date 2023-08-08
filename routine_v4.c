@@ -28,33 +28,27 @@ void	split_env(void)
 	g_var.env_path[i] = NULL;
 }
 
-int	search_cmd(void) //fork ekrana birşey yazdırmayan komutlara gitmeyecek. UNUTMA fork oluştur
+void	search_cmd(void) //fork ekrana birşey yazdırmayan komutlara gitmeyecek. UNUTMA fork oluştur
 {
 	int	i;
 	int result;
 
 	i = 0;
-	while (g_var.cmds[i]->str[0])
+	while (g_var.cmds[i])
 	{
 		result = agree_cmd(g_var.cmds[i]->str[0]);
 		if (result == 1)
-		{
 			ft_echo(i);
-			return (0);
-		}
 		if (result == 2)
-		{
 			search_on_env(i);
-			return (0);
-		}
 		if (result == 3)
-		{
 			search_on_env(i);
-			return (0);
-		}
+		if (result == 4)
+			ft_exit(i);
+		if (result == 5)
+			ft_env();
 		i++;
 	}
-	return (0);
 }
 
 int	agree_cmd(char *str)
@@ -68,13 +62,13 @@ int	agree_cmd(char *str)
 		return (2);
 	if (ft_strncmp_v3(str, "ls", size) == 0)
 		return (3);
-	if (ft_strncmp_v3(str, "env", size) == 0)
+	if (ft_strncmp_v3(str, "exit", size) == 0)
 		return (4);
-	if (ft_strncmp_v3(str, "export", size) == 0)
+	if (ft_strncmp_v3(str, "env", size) == 0)
 		return (5);
 	if (ft_strncmp_v3(str, "cd", size) == 0)
 		return (6);
-	if (ft_strncmp_v3(str, "exit", size) == 0)
+	if (ft_strncmp_v3(str, "export", size) == 0)
 		return (7);
 	if (ft_strncmp_v3(str, "unset", size) == 0)
 		return (8);

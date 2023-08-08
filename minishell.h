@@ -86,8 +86,11 @@ int			find_path(char *str);
 void		split_env(void);
 void		search_on_env(int k);
 int			agree_cmd(char *str);
-int			search_cmd(void);
+void		search_cmd(void);
 void		ft_echo(int	i);
 int			just_echo(int i);
 int			pass_nl(int k);
+int			str_is_digit(char *str);
+void		ft_exit(int	i);
+void		ft_env(void);
 #endif

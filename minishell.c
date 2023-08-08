@@ -37,7 +37,6 @@ int	routine(char *str)
 	input_to_place();
 	split_env();
 	search_cmd();
-//	deneme();
 	return (0);
 }
 

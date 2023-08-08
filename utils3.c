@@ -38,3 +38,21 @@ int	find_path(char *str)
 	}
 	return (i);
 }
+
+int	str_is_digit(char *str)
+{
+	int	i;
+	int k;
+
+	k = 0;
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] >= '0' && str[i] <= '9')
+			k++;
+		i++;
+	}
+	if ((size_t)k == ft_strlen(str))
+		return (1);
+	return (0);
+}
