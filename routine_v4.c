@@ -40,13 +40,15 @@ void	search_cmd(void) //fork ekrana birşey yazdırmayan komutlara gitmeyecek. U
 		if (result == 1)
 			ft_echo(i);
 		if (result == 2)
-			search_on_env(i);
+			ft_pwd();
 		if (result == 3)
 			search_on_env(i);
 		if (result == 4)
 			ft_exit(i);
 		if (result == 5)
 			ft_env();
+		if (result == 6)
+			ft_cd(i);
 		i++;
 	}
 }
@@ -58,21 +60,26 @@ int	agree_cmd(char *str)
 	size = ft_strlen(str);
 	if (ft_strncmp_v3(str, "echo", size) == 0)
 		return (1);
+	else if (ft_strncmp_v3(str, "echo", 4) == 0)
+	{
+		print_error(str);
+		return (-1);
+	}
 	if (ft_strncmp_v3(str, "pwd", size) == 0)
 		return (2);
+	else if (ft_strncmp_v3(str, "pwd", 3) == 0)
+	{
+		print_error(str);
+		return (-1);
+	}
 	if (ft_strncmp_v3(str, "ls", size) == 0)
 		return (3);
-	if (ft_strncmp_v3(str, "exit", size) == 0)
-		return (4);
-	if (ft_strncmp_v3(str, "env", size) == 0)
-		return (5);
-	if (ft_strncmp_v3(str, "cd", size) == 0)
-		return (6);
-	if (ft_strncmp_v3(str, "export", size) == 0)
-		return (7);
-	if (ft_strncmp_v3(str, "unset", size) == 0)
-		return (8);
-	return (0);
+	else if (ft_strncmp_v3(str, "ls", 2) == 0)
+	{
+		print_error(str);
+		return (-1);
+	}
+	return(agree_cmd_v2(str, size));
 }
 
 void	ft_echo(int	i)

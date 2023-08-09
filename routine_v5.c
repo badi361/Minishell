@@ -36,3 +36,48 @@ void	ft_env(void)
 		i++;
 	}
 }
+
+void	ft_pwd(void)
+{
+	char	p[256];
+
+	getcwd(p, sizeof(p));
+	printf("%s\n", p);
+}
+
+void	ft_cd(int k)
+{
+	char str[128];
+
+	getcwd(str, sizeof(str));
+	if (g_var.cmds[k]->str[1])
+	{
+		if (ft_strncmp_v3(g_var.cmds[k]->str[1], "..", 2) == 0)
+		{
+			if (g_var.cmds[k]->str[1][2])
+			{
+				printf("minishell: cd: %s: No such file or directory\n", g_var.cmds[k]->str[1]);
+				return ;
+			}
+			cd_back(str);
+		}
+		else if (ft_strncmp_v3(g_var.cmds[k]->str[1], "~", 1) == 0)
+		{
+			if (g_var.cmds[k]->str[1][1])
+			{
+				printf("minishell: cd: %s: No such file or directory\n", g_var.cmds[k]->str[1]);
+				return ;
+			}
+			cd_tilde(str);
+		}
+		else if (g_var.cmds[k]->str[1])
+			cd_next(str, g_var.cmds->str[1]);
+	}
+	else
+		cd_tilde(str);
+}
+
+void	print_error(char *str)
+{
+	printf("minishell: %s: command not found\n", str);
+}

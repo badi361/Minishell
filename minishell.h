@@ -42,6 +42,7 @@ struct s_var
 	int			pipe_count;
 	int			**pipe;
 	char		***string_3;
+	char		*path;
 }	g_var;
 
 void		malloc_env(char **env);
@@ -93,4 +94,12 @@ int			pass_nl(int k);
 int			str_is_digit(char *str);
 void		ft_exit(int	i);
 void		ft_env(void);
+void		ft_pwd(void);
+void		ft_cd(int k);
+void		cd_back(char *str);
+void		print_error(char *str);
+int			agree_cmd_v2(char *str, int size);
+int			agree_cmd_v3(char *str, int size);
+void		cd_tilde(char *str);
+int			malloc_path(int i, char *str);
 #endif
