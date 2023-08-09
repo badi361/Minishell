@@ -49,6 +49,8 @@ void	search_cmd(void) //fork ekrana birşey yazdırmayan komutlara gitmeyecek. U
 			ft_env();
 		if (result == 6)
 			ft_cd(i);
+		if (result == 7)
+			ft_export(i);
 		i++;
 	}
 }

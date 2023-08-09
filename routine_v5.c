@@ -71,7 +71,7 @@ void	ft_cd(int k)
 			cd_tilde(str);
 		}
 		else if (g_var.cmds[k]->str[1])
-			cd_next(str, g_var.cmds->str[1]);
+			cd_next(str, g_var.cmds[k]->str[1]);
 	}
 	else
 		cd_tilde(str);

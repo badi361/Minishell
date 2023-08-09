@@ -102,4 +102,5 @@ int			agree_cmd_v2(char *str, int size);
 int			agree_cmd_v3(char *str, int size);
 void		cd_tilde(char *str);
 int			malloc_path(int i, char *str);
+void		cd_next(char *str, char *next);
 #endif

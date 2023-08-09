@@ -76,5 +76,27 @@ int	malloc_path(int i, char *str)
 
 void	cd_next(char *str, char *next)
 {
-	
+	int	i;
+	char *ktm;
+	int t;
+
+	t = 0;
+	i = 0;
+	ktm = malloc(sizeof(char) * (ft_strlen(str) + ft_strlen(next) + 1));
+	while (str[i])
+	{
+		ktm[i] = str[i];
+		i++;
+	}
+	ktm[i] = '/';
+	i++;
+	while (next[t])
+	{
+		ktm[i] = next[t];
+		i++;
+		t++;
+	}
+	ktm[i] = '\0';
+	chdir(ktm);
+	free(ktm);
 }
