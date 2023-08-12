@@ -40,6 +40,16 @@ int	routine(char *str)
 	input_to_place();
 	split_env();
 	search_cmd();
+	/*link_list *i;
+	i = g_var.list;
+	printf("-------------------\n");
+	while(i)
+	{
+		printf("%s     ", i->content);
+		printf("----%c----\n", i->flag);
+		i = i->next;
+	}
+	printf("-------------------\n");*/
 	return (0);
 }
 

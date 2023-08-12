@@ -1,5 +1,5 @@
 SRCS		=		minishell.c check.c routine.c list_foncs.c utils.c utils2.c routine_v2.c routine_v3.c utils3.c \
-					routine_v4.c routine_v5.c cd.c routine_v6.c
+					routine_v4.c routine_v5.c cd.c routine_v6.c	routine_v7.c
 
 LIBFT		=		libft/libft.a
 

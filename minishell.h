@@ -107,4 +107,8 @@ void		cd_next(char *str, char *next);
 void		print_export(void);
 void		ft_export(int k);
 char		*find_equal(char *str);
+char		*add_quote_v2(char *str);
+int			find_equal_v2(char *str);
+void		new_env(int	index, int k, int l);
+char		*add_quote(int k, int i);
 #endif

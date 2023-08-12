@@ -63,11 +63,12 @@ void	print_export(void)
 			{
 				printf("=%c", '"');
 				printf("%s", &g_var.export[k][++i]);
-				printf("%c\n", '"');
+				printf("%c", '"');
 				break ;
 			}
 			i++;
 		}
+		printf("\n");
 		k++;
 	}
 }
@@ -78,69 +79,77 @@ void	ft_export(int k)
 	char *str;
 
 	i = 1;
-	while (g_var.cmds[k]->str[i])
+	while (g_var.cmds[k])
 	{
-		if (ft_isalpha(g_var.cmds[k]->str[i][0]))
+		while (g_var.cmds[k]->str[i])
 		{
-			str = find_equal(g_var.cmds[k]->str[i]);
-			if (find_path(str) != -1)
+			if (ft_isalpha(g_var.cmds[k]->str[i][0]))
 			{
-				g_var.env[find_path(str)]
+				str = find_equal(g_var.cmds[k]->str[i]);
+				new_env(find_path(str), k, i);
+				free(str);
 			}
+			else
+				printf("minishell: export: %s: not a valid identifier\n",
+					g_var.cmds[0]->str[i]);
+				i++;
 		}
-		else
-			printf("minishell: export: %s: not a valid identifier\n",
-				g_var.cmds[0]->str[i]);
+	k++;
 	}
 }
 
-void	new_env(int	k, char *data, int l)
+void	new_env(int	index, int k, int l)
 {
 	int	i;
 	char **str;
 
 	i = 0;
-	if (k == -1)
+	if (index == -1)
 	{
-
+		str = malloc(sizeof(char *) * (g_var.env_size + 2));
+		while (g_var.export[i])
+		{
+			str[i] = ft_strdup(g_var.export[i]);
+			free(g_var.export[i]);
+			i++;
+		}
+		if (find_equal_v2(g_var.cmds[k]->str[l]))
+			str[i] = add_quote_v2(g_var.cmds[k]->str[l]);
+		else
+			str[i] = ft_strdup(g_var.cmds[k]->str[l]);
+		free(g_var.export);
+		g_var.export = str;
 	}
 	else
 	{
-		str = malloc(sizeof(char *) * (g_var.env_size + 1));
-		while (g_var.env[i])
-		{
-			if (i == k - 1) // index
-			{
-				str[i] = ft_strdup(g_var.cmds[l]->str)
-			}
-			str[i] = ft_strdup(g_var.env[i]);
-		}
+		free(g_var.export[index]);
+		g_var.export[index] = g_var.cmds[k]->str[l];
 	}
 }
 
-char	*new_env_help(int k)
+char	*add_quote(int k, int i)
 {
-	int	i;
-	char *str;
-	int flag;
+	int	t;
+	char *result;
 
-	flag = 0;
-	i = 0;
-	while (g_var.cmds[k]->str[1][i])
+	t = 0;
+	int	l;
+	result = malloc(sizeof(char) * (ft_strlen(g_var.cmds[k]->str[i] + 3)));
+	while (g_var.cmds[k]->str[i][t] != '=')
 	{
-		if (g_var.cmds[k]->str[1][i] == '"')
-		{
-			flag += 1;
-			i++;
-			while (g_var.cmds[k]->str[1][i] != '"' && g_var.cmds[k]->str[1][i])
-				i++;
-			if (g_var.cmds[k]->str[1][i] == '"')
-				flag = 2;
-		}
-		i++;
+		result[t] = g_var.cmds[k]->str[i][t];
+		t++;
 	}
-	if (flag == 1)
-		printf("syntax error token %c", '"');
-	else if (flag == 2)
-	str = malloc(sizeof(char) * i + 1);
+	l = t;
+	result[t++] = '=';
+	result[t++] = '"';
+	while (g_var.cmds[k]->str[i][l])
+	{
+		result[t] = g_var.cmds[k]->str[i][l];
+		t++;
+		l++;
+	}
+	result[t] = '"';
+	result[t + 1] = '\0';
+	return (result);
 }
