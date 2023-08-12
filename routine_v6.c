@@ -44,3 +44,103 @@ int	agree_cmd_v3(char *str, int size)
 	}
 	return (0);
 }
+
+void	print_export(void)
+{
+	int	i;
+	int	k;
+
+	k = 0;
+	while (g_var.export[k])
+	{
+		printf("declare -x ");
+		i = 0;
+		while (g_var.export[k][i])
+		{
+			if (g_var.export[k][i] != '=')
+				printf("%c", g_var.export[k][i]);
+			else
+			{
+				printf("=%c", '"');
+				printf("%s", &g_var.export[k][++i]);
+				printf("%c\n", '"');
+				break ;
+			}
+			i++;
+		}
+		k++;
+	}
+}
+
+void	ft_export(int k)
+{
+	int	i;
+	char *str;
+
+	i = 1;
+	while (g_var.cmds[k]->str[i])
+	{
+		if (ft_isalpha(g_var.cmds[k]->str[i][0]))
+		{
+			str = find_equal(g_var.cmds[k]->str[i]);
+			if (find_path(str) != -1)
+			{
+				g_var.env[find_path(str)]
+			}
+		}
+		else
+			printf("minishell: export: %s: not a valid identifier\n",
+				g_var.cmds[0]->str[i]);
+	}
+}
+
+void	new_env(int	k, char *data, int l)
+{
+	int	i;
+	char **str;
+
+	i = 0;
+	if (k == -1)
+	{
+
+	}
+	else
+	{
+		str = malloc(sizeof(char *) * (g_var.env_size + 1));
+		while (g_var.env[i])
+		{
+			if (i == k - 1) // index
+			{
+				str[i] = ft_strdup(g_var.cmds[l]->str)
+			}
+			str[i] = ft_strdup(g_var.env[i]);
+		}
+	}
+}
+
+char	*new_env_help(int k)
+{
+	int	i;
+	char *str;
+	int flag;
+
+	flag = 0;
+	i = 0;
+	while (g_var.cmds[k]->str[1][i])
+	{
+		if (g_var.cmds[k]->str[1][i] == '"')
+		{
+			flag += 1;
+			i++;
+			while (g_var.cmds[k]->str[1][i] != '"' && g_var.cmds[k]->str[1][i])
+				i++;
+			if (g_var.cmds[k]->str[1][i] == '"')
+				flag = 2;
+		}
+		i++;
+	}
+	if (flag == 1)
+		printf("syntax error token %c", '"');
+	else if (flag == 2)
+	str = malloc(sizeof(char) * i + 1);
+}

@@ -27,6 +27,7 @@ typedef struct pipe_var
 
 struct s_var
 {
+	char		**export;
 	int			nl_flag;
 	pid_t		*pid;
 	pipe_list	**cmds;
@@ -103,4 +104,7 @@ int			agree_cmd_v3(char *str, int size);
 void		cd_tilde(char *str);
 int			malloc_path(int i, char *str);
 void		cd_next(char *str, char *next);
+void		print_export(void);
+void		ft_export(int k);
+char		*find_equal(char *str);
 #endif

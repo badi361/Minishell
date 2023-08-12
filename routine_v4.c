@@ -50,7 +50,10 @@ void	search_cmd(void) //fork ekrana birşey yazdırmayan komutlara gitmeyecek. U
 		if (result == 6)
 			ft_cd(i);
 		if (result == 7)
-			ft_export(i);
+			if (g_var.cmds[i]->str[1] == NULL)
+				print_export();
+			else
+				ft_export(i);
 		i++;
 	}
 }

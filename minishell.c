@@ -9,12 +9,15 @@ void	malloc_env(char **env)
 		i++;
 	g_var.env_size = i;
 	g_var.env = malloc(sizeof(char *) * (i + 1));
+	g_var.export = malloc(sizeof(char *) * (i + 1));
 	i = 0;
 	while (env[i])
 	{
+		g_var.export[i] = ft_strdup(env[i]);
 		g_var.env[i] = ft_strdup(env[i]);
 		i++;
 	}
+	g_var.export[i] = NULL;
 	g_var.env[i] = NULL;
 	g_var.exit_code = 0;
 	g_var.nl_flag = 0;
