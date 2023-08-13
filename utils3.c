@@ -73,6 +73,8 @@ char	*find_equal(char *str)
 	i = 0;
 	while (str[size] != '=' && str[size])
 		size++;
+	if (str[size] == '=')
+		size++;
 	result = malloc(sizeof(char) * size + 1);
 	while (i < size)
 	{
@@ -81,4 +83,32 @@ char	*find_equal(char *str)
 	}
 	result[i] = '\0';
 	return (result);
+}
+
+int	find_path_v2(char *str)
+{
+	int	i;
+	int	k;
+	int	size;
+	int	flag;
+
+	flag = 0;
+	i = 0;
+	size = ft_strlen(str);
+	while (g_var.export[i])
+	{
+		k = 0;
+		while (g_var.export[i][k] == str[k] && k < size)
+			k++;
+		if (k == size)
+		{
+			flag = 1;
+			break ;
+		}
+		i++;
+	}
+	if (flag == 1)
+		return (i);
+	else
+		return (-1);
 }

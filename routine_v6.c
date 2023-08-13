@@ -79,14 +79,19 @@ void	ft_export(int k)
 	char *str;
 
 	i = 1;
-	while (g_var.cmds[k])
-	{
+	while (g_var.cmds[++k])
 		while (g_var.cmds[k]->str[i])
 		{
 			if (ft_isalpha(g_var.cmds[k]->str[i][0]))
 			{
 				str = find_equal(g_var.cmds[k]->str[i]);
-				new_env(find_path(str), k, i);
+				if (find_equal_v2(g_var.cmds[k]->str[i]))
+				{
+					new_export(find_path_v2(str), k, i);
+					new_env(find_path(str), k, i);
+				}
+				else
+					new_export(find_path_v2(str), k, i);
 				free(str);
 			}
 			else
@@ -94,11 +99,9 @@ void	ft_export(int k)
 					g_var.cmds[0]->str[i]);
 				i++;
 		}
-	k++;
-	}
 }
 
-void	new_env(int	index, int k, int l)
+void	new_export(int	index, int k, int l)
 {
 	int	i;
 	char **str;
@@ -106,24 +109,23 @@ void	new_env(int	index, int k, int l)
 	i = 0;
 	if (index == -1)
 	{
-		str = malloc(sizeof(char *) * (g_var.env_size + 2));
+		str = malloc(sizeof(char *) * (g_var.export_size + 2));
 		while (g_var.export[i])
 		{
 			str[i] = ft_strdup(g_var.export[i]);
 			free(g_var.export[i]);
 			i++;
 		}
-		if (find_equal_v2(g_var.cmds[k]->str[l]))
-			str[i] = add_quote_v2(g_var.cmds[k]->str[l]);
-		else
-			str[i] = ft_strdup(g_var.cmds[k]->str[l]);
+		str[i++] = ft_strdup(g_var.cmds[k]->str[l]);
 		free(g_var.export);
+		str[i] = NULL;
 		g_var.export = str;
+		g_var.export_size += 1;
 	}
-	else
+	else if (find_equal_v2(g_var.cmds[k]->str[l]))
 	{
 		free(g_var.export[index]);
-		g_var.export[index] = g_var.cmds[k]->str[l];
+		g_var.export[index] = ft_strdup(g_var.cmds[k]->str[l]);
 	}
 }
 

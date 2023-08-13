@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-void	split_env(void)
+int	split_env(void)
 {
 	int i;
     int	k;
@@ -9,6 +9,8 @@ void	split_env(void)
 
 	i = 0;
 	k = find_path("PATH=");
+	if (k == -1)
+		return (0);
 	str = ft_split(&g_var.env[k][5], ':');
 	g_var.env_path = (char **)malloc(sizeof(char *) * (ft_strlen_v3(&g_var.env[k][5], ':') + 1));
 	while (i < ft_strlen_v3(&g_var.env[k][5], ':'))
@@ -26,6 +28,7 @@ void	split_env(void)
 	}
 	free(str);
 	g_var.env_path[i] = NULL;
+	return (1);
 }
 
 void	search_cmd(void) //fork ekrana birşey yazdırmayan komutlara gitmeyecek. UNUTMA fork oluştur
@@ -33,8 +36,8 @@ void	search_cmd(void) //fork ekrana birşey yazdırmayan komutlara gitmeyecek. U
 	int	i;
 	int result;
 
-	i = 0;
-	while (g_var.cmds[i])
+	i = -1;
+	while (g_var.cmds[++i])
 	{
 		result = agree_cmd(g_var.cmds[i]->str[0]);
 		if (result == 1)
@@ -42,21 +45,17 @@ void	search_cmd(void) //fork ekrana birşey yazdırmayan komutlara gitmeyecek. U
 		if (result == 2)
 			ft_pwd();
 		if (result == 3)
-			search_on_env(i);
+		{
+			if (split_env())	
+				search_on_env(i);
+			else
+				print_error("ls");
+		}
 		if (result == 4)
 			ft_exit(i);
 		if (result == 5)
 			ft_env();
-		if (result == 6)
-			ft_cd(i);
-		if (result == 7)
-		{
-			if (g_var.cmds[i]->str[1] == NULL)
-				print_export();
-			else
-				ft_export(i);
-		}
-		i++;
+		search_cmd_v2(result, i);
 	}
 }
 

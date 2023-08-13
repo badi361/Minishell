@@ -6,7 +6,3 @@
 
 //                                             HATALAR
 //minishell: de echo -n lı komutları yazdırdıktan sonra üst tuşa bastığımda minishell: silinebiliyo dikkat et
-// export "" hata olmalı
-// export BARAN=ARDA exporta gittiği gibi env ye de gitmeli
-// export arda ahmet yazınca seg yiyo
-// 2 tane aynı isimden olursa export a eklememesi lazım

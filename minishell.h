@@ -27,6 +27,7 @@ typedef struct pipe_var
 
 struct s_var
 {
+	int			export_size;
 	char		**export;
 	int			nl_flag;
 	pid_t		*pid;
@@ -85,7 +86,7 @@ void		cmd_init(void);
 void		input_to_place(void);
 int			ft_strlen_v3(char *s, char c);
 int			find_path(char *str);
-void		split_env(void);
+int			split_env(void);
 void		search_on_env(int k);
 int			agree_cmd(char *str);
 void		search_cmd(void);
@@ -109,6 +110,15 @@ void		ft_export(int k);
 char		*find_equal(char *str);
 char		*add_quote_v2(char *str);
 int			find_equal_v2(char *str);
-void		new_env(int	index, int k, int l);
+void		new_export(int index, int k, int l);
 char		*add_quote(int k, int i);
+void		new_env(int	index, int k, int l);
+int			find_path_v2(char *str);
+void		search_cmd_v2(int result, int i);
+void		refresh_env(int index);
+void		refresh_export(int index);
+void		ft_unset(int i);
+char		*find_equal_v3(char *str);
+int			adasdad(int i, int k);
+int			adasdad_v2(int i, int k);
 #endif

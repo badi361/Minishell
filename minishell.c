@@ -8,6 +8,7 @@ void	malloc_env(char **env)
 	while (env[i])
 		i++;
 	g_var.env_size = i;
+	g_var.export_size = i;
 	g_var.env = malloc(sizeof(char *) * (i + 1));
 	g_var.export = malloc(sizeof(char *) * (i + 1));
 	i = 0;
@@ -38,18 +39,7 @@ int	routine(char *str)
 	rdr_flag();
 	cmd_init();
 	input_to_place();
-	split_env();
 	search_cmd();
-	/*link_list *i;
-	i = g_var.list;
-	printf("-------------------\n");
-	while(i)
-	{
-		printf("%s     ", i->content);
-		printf("----%c----\n", i->flag);
-		i = i->next;
-	}
-	printf("-------------------\n");*/
 	return (0);
 }
 
@@ -84,7 +74,9 @@ void	search_on_env(int k)
 	char *str;
 	int i;
 	int	t;
+	int	flag;
 
+	flag = 0;
 	t = 0;
 	while (g_var.cmds[k])
 	{
@@ -93,9 +85,9 @@ void	search_on_env(int k)
 		{
 			str = ft_strjoin(g_var.env_path[i], "/");
 			str = ft_strjoin(str, g_var.cmds[k]->str[0]);
-
 			if (access(str, 0) == 0)
 			{
+				flag = 1;
 				g_var.pid[t] = fork();
 				if (g_var.pid[t] == 0)
 				{
@@ -111,4 +103,6 @@ void	search_on_env(int k)
 		k++;
 		waitpid(g_var.pid[t], &g_var.exit_code, 0);
 	}
+	if (flag == 0)
+		printf("minishell: ls: command not found\n");
 }
