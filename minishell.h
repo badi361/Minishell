@@ -121,4 +121,6 @@ void		ft_unset(int i);
 char		*find_equal_v3(char *str);
 int			adasdad(int i, int k);
 int			adasdad_v2(int i, int k);
+void		rdr_init(void);
+void		dup_func(int i);
 #endif

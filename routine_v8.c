@@ -75,3 +75,31 @@ char	*find_equal_v3(char *str)
 	result[i] = '\0';
 	return (result);
 }
+
+void	rdr_init(void)
+{
+	link_list *tmp;
+	int	fd;
+
+	fd = 0;
+	tmp = g_var.list;
+	while (tmp)
+	{
+		if (tmp->flag == 'i')
+		{
+			fd = open(tmp->content, O_RDONLY);
+			g_var.cmds[0]->f_out = fd;
+			g_var.cmds[0]->f_in = fd;
+		}
+		if (tmp->flag == 'o')
+		{
+			fd = open(tmp->content, O_CREAT | O_TRUNC | O_RDWR, 0777);
+			g_var.cmds[0]->f_out = fd;
+		}
+		if (tmp->flag == 'r')
+			fd = open(tmp->content, O_CREAT | O_APPEND | O_RDWR, 0777);
+		if (fd == -1)
+			printf("error");
+		tmp = tmp->next;
+	}
+}

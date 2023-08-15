@@ -58,12 +58,18 @@ void	rdr_flag(void) // > ndan sonraki verinin flagini i yani input, < dan sonrak
 	tmp = g_var.list;
 	while (tmp)
 	{
-		if (tmp->flag == '>')
-			if (tmp->next)
-				tmp->next->flag = 'i';
-		if (tmp->flag == '<')
+		if (tmp->content[0] == '>' && tmp->content[1] == '\0')
 			if (tmp->next)
 				tmp->next->flag = 'o';
+		if (tmp->content[0] == '<' && tmp->content[1] == '\0')
+			if (tmp->next)
+				tmp->next->flag = 'i';
+		if (tmp->content[0] == '>' && tmp->content[1] == '>')
+			if (tmp->next)
+				tmp->next->flag = 'r';
+		if (tmp->content[0] == '<' && tmp->content[1] == '<')
+			if (tmp->next)
+				tmp->next->flag = 'h';
 		tmp = tmp->next;
 	}
 }

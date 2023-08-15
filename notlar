@@ -6,3 +6,10 @@
 
 //                                             HATALAR
 //minishell: de echo -n lı komutları yazdırdıktan sonra üst tuşa bastığımda minishell: silinebiliyo dikkat et
+
+
+//                                             RDR KOMUTLARI
+// '<' Bir komutun girdisini belirtilen bir dosyadan almasını sağlar. örnek: cat < makefile   (bu komut makefile daki metinleri cat komutuyla ekrana yazdırılmasını sağlar) solda komut sağda dosya yolu olacak. ls < sonminishell gibi
+// '>' Bir komutun çıktısını belirtilen bir dosyaya yazmasını sağlar. örnek: pwd > makefile (pwd komutunun çıktısını makefile adlı dosyaya yazar. dosya yoksa oluşturur ve yazar. varsa sadece yazar)
+// '>>' Bir komutun çıktısını belirtilen bir dosyaya eklemesini sağlar. örnek: pwd >> makefile(makefile isimli dosyaya girer. dosyanın sonuna gider ve solda verdiğimiz komutun çıktısını dosyanın sonuna yazar)
+// '<<'  Bu işaret "here document" veya "here doc" olarak adlandırılan bir özelliği temsil eder. Bu, bir komuta birden fazla satırlık metin girdisi sağlamak için kullanılır.

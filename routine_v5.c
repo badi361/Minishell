@@ -40,7 +40,7 @@ void	ft_env(void)
 void	ft_pwd(void)
 {
 	char	p[256];
-
+	dup_func(0);
 	getcwd(p, sizeof(p));
 	printf("%s\n", p);
 }
