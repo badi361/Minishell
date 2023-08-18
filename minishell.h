@@ -90,7 +90,7 @@ int			ft_strlen_v3(char *s, char c);
 int			find_path(char *str);
 int			split_env(void);
 void		search_on_env(int k);
-int			agree_cmd(char *str);
+int			agree_cmd(char *str, int i);
 void		search_cmd(void);
 void		ft_echo(int	i);
 int			just_echo(int i);
@@ -126,6 +126,5 @@ void		dup_func(int i);
 void		close_fd(void);
 void		search_on_env_v2(int k);
 int			rdr_env(void);
-void		execve_v1(int k, int t, int *flag, char *str);
-void		execve_v2(int k, char *str);
+void		execve_v1(int k, int *flag, char *str);
 #endif

@@ -89,16 +89,3 @@ int	rdr_pipe_check_v3(void) // hata kontrolleri
 	return (0);
 }
 
-void	execve_v2(int k, char *str)
-{
-	if (g_var.cmds[k]->rdr_fl == 3)
-	{
-		dup2(g_var.cmds[k]->f_out, STDOUT_FILENO);
-		dup2(g_var.cmds[k]->f_in, STDIN_FILENO);
-		close(g_var.cmds[k]->f_out);
-		close(g_var.cmds[k]->f_in);
-		execve(str, g_var.cmds[k]->str, g_var.env);
-		free(str);
-		exit(0);
-	}
-}

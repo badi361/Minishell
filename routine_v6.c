@@ -130,52 +130,47 @@ void	search_on_env_v2(int k)
 {
 	char *str;
 	int i;
-	int	t;
 	int	flag;
 
+	i = 0;
 	flag = 0;
-	t = 0;
-	while (g_var.cmds[k])
+	while (g_var.env_path[i])
 	{
-		i = 0;
-		while (g_var.env_path[i])
-		{
-			str = ft_strjoin(g_var.env_path[i], "/");
-			str = ft_strjoin(str, g_var.cmds[k]->str[0]);
-			if (access(str, 0) == 0)
-				execve_v1(k, t, &flag, str);
-			free(str);
-			i++;
-		}
-		t++;
-		k++;
+		str = ft_strjoin(g_var.env_path[i], "/");
+		str = ft_strjoin(str, g_var.cmds[k]->str[0]);
+		if (access(str, 0) == 0)
+			execve_v1(k, &flag, str);
+		free(str);
+		i++;
 	}
 	if (flag == 0)
 		printf("minishell: ls: command not found\n");
 }
 
-void	execve_v1(int k, int t, int *flag, char *str)
+void	execve_v1(int k, int *flag, char *str)
 {
 	*flag = 1;
-	g_var.pid[t] = fork();
-	if (g_var.pid[t] == 0)
+	if (g_var.cmds[k]->rdr_fl == 1)
 	{
-		if (g_var.cmds[k]->rdr_fl == 1)
-		{
-			dup2(g_var.cmds[k]->f_in, STDIN_FILENO);
-			close(g_var.cmds[k]->f_in);
-			execve(str, g_var.cmds[k]->str, g_var.env);
-			free(str);
-			exit(0) ;
-		}
-		if (g_var.cmds[k]->rdr_fl == 2)
-		{
-			dup2(g_var.cmds[k]->f_out, STDOUT_FILENO);
-			close(g_var.cmds[k]->f_out);
-			execve(str, g_var.cmds[k]->str, g_var.env);
-			free(str);
-			exit(0) ;
-		}
-		execve_v2(k, str);
+		dup2(g_var.cmds[k]->f_in, STDIN_FILENO);
+		close(g_var.cmds[k]->f_in);
+		execve(str, g_var.cmds[k]->str, g_var.env);
+		free(str);
+	}
+	if (g_var.cmds[k]->rdr_fl == 2)
+	{
+		dup2(g_var.cmds[k]->f_out, STDOUT_FILENO);
+		close(g_var.cmds[k]->f_out);
+		execve(str, g_var.cmds[k]->str, g_var.env);
+		free(str);
+	}
+	if (g_var.cmds[k]->rdr_fl == 3)
+	{
+		dup2(g_var.cmds[k]->f_out, STDOUT_FILENO);
+		dup2(g_var.cmds[k]->f_in, STDIN_FILENO);
+		close(g_var.cmds[k]->f_out);
+		close(g_var.cmds[k]->f_in);
+		execve(str, g_var.cmds[k]->str, g_var.env);
+		free(str);
 	}
 }

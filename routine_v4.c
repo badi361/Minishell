@@ -36,46 +36,47 @@ void	search_cmd(void) //fork ekrana birşey yazdırmayan komutlara gitmeyecek. U
 	int	i;
 	int result;
 
-	i = -1;
-	while (g_var.cmds[++i])
+	i = 0;
+	result = agree_cmd(g_var.cmds[0]->str[0], i);
+	if (result < 4 || result == 9)
 	{
-		result = agree_cmd(g_var.cmds[i]->str[0]);
 		if (result == 1)
-			ft_echo(i);
+			ft_unset(i);
 		if (result == 2)
-			ft_pwd();
+			ft_cd(i);
 		if (result == 3)
-		{
-			split_env();
-			if (rdr_env())
-				search_on_env(i);
-			else
-				search_on_env_v2(i);
-		}
-		if (result == 4)
 			ft_exit(i);
-		search_cmd_v2(result, i);
+		if (result == 9)
+			ft_export(i - 1);
+		i++;
 	}
+	else
+		search_cmd_v2(result, i);
 }
 
-int	agree_cmd(char *str)
+int	agree_cmd(char *str, int i)
 {
-	if (ft_strncmp_v3(str, "echo", 4) == 0)
+	if (ft_strncmp_v3(str, "unset", 5) == 0)
 		return (1);
-	if (ft_strncmp_v3(str, "pwd", 3) == 0)
+	if (ft_strncmp_v3(str, "cd", 3) == 0)
 		return (2);
 	if (ft_strncmp_v3(str, "exit", 4) == 0)
-		return (4);
-	if (ft_strncmp_v3(str, "env", 3) == 0)
-		return (5);
-	if (ft_strncmp_v3(str, "cd", 2) == 0)
-		return (6);
-	if (ft_strncmp_v3(str, "export", 6) == 0)
-		return (7);
-	if (ft_strncmp_v3(str, "unset", 5) == 0)
-		return (8);
-	else
 		return (3);
+	if (ft_strncmp_v3(str, "env", 3) == 0)
+		return (4);
+	if (ft_strncmp_v3(str, "pwd", 2) == 0)
+		return (5);
+	if (ft_strncmp_v3(str, "export", 6) == 0)
+	{
+		if (g_var.cmds[i]->str[1] == NULL)
+			return (6);
+		else
+			return (9);
+	}
+	if (ft_strncmp_v3(str, "echo", 5) == 0)
+		return (7);
+	else
+		return (8);
 }
 
 void	ft_echo(int	i)

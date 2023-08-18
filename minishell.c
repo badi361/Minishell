@@ -41,6 +41,7 @@ int	routine(char *str)
 	rdr_init();
 	input_to_place();
 	search_cmd();
+	close_fd();
 	return (0);
 }
 
@@ -74,34 +75,22 @@ void	search_on_env(int k)
 {
 	char *str;
 	int i;
-	int	t;
 	int	flag;
 
 	flag = 0;
-	t = 0;
-	while (g_var.cmds[k])
+	i = 0;
+	while (g_var.env_path[i])
 	{
-		i = 0;
-		while (g_var.env_path[i])
+		str = ft_strjoin(g_var.env_path[i], "/");
+		str = ft_strjoin(str, g_var.cmds[k]->str[0]);
+		if (access(str, 0) == 0)
 		{
-			str = ft_strjoin(g_var.env_path[i], "/");
-			str = ft_strjoin(str, g_var.cmds[k]->str[0]);
-			if (access(str, 0) == 0)
-			{
-				flag = 1;
-				g_var.pid[t] = fork();
-				if (g_var.pid[t] == 0)
-				{
-					execve(str, g_var.cmds[k]->str, g_var.env);
-					free(str);
-					exit(0) ;
-				}
-			}
+			flag = 1;
+			execve(str, g_var.cmds[k]->str, g_var.env);
 			free(str);
-			i++;
 		}
-		t++;
-		k++;
+		free(str);
+		i++;
 	}
 	if (flag == 0)
 		printf("minishell: %s: command not found\n", g_var.cmds[0]->str[0]);
