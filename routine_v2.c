@@ -88,6 +88,7 @@ void	cmd_init(void) // terminalden a >> b | b < a gibi bir komut geldiyse pipeda
 		g_var.cmds[i]->str = g_var.string_3[i];
 		g_var.cmds[i]->f_in = STDIN_FILENO;
 		g_var.cmds[i]->f_out = STDOUT_FILENO;
+		g_var.cmds[i]->rdr_fl = 0;
 		i++;
 	}
 	g_var.cmds[i] = NULL;

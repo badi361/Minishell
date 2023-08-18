@@ -78,6 +78,8 @@ void	new_env(int	index, int k, int l)
 
 void	search_cmd_v2(int result, int i)
 {
+		if (result == 5)
+			ft_env();
 		if (result == 6)
 			ft_cd(i);
 		if (result == 7)
@@ -89,6 +91,7 @@ void	search_cmd_v2(int result, int i)
 		}
 		if (result == 8)
 			ft_unset(i);
+		close_fd();
 }
 
 void	ft_unset(int i)

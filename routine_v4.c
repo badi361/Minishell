@@ -46,46 +46,36 @@ void	search_cmd(void) //fork ekrana birşey yazdırmayan komutlara gitmeyecek. U
 			ft_pwd();
 		if (result == 3)
 		{
-			if (split_env())	
+			split_env();
+			if (rdr_env())
 				search_on_env(i);
 			else
-				print_error("ls");
+				search_on_env_v2(i);
 		}
 		if (result == 4)
 			ft_exit(i);
-		if (result == 5)
-			ft_env();
 		search_cmd_v2(result, i);
 	}
 }
 
 int	agree_cmd(char *str)
 {
-	int size;
-
-	size = ft_strlen(str);
-	if (ft_strncmp_v3(str, "echo", size) == 0)
+	if (ft_strncmp_v3(str, "echo", 4) == 0)
 		return (1);
-	else if (ft_strncmp_v3(str, "echo", 4) == 0)
-	{
-		print_error(str);
-		return (-1);
-	}
-	if (ft_strncmp_v3(str, "pwd", size) == 0)
+	if (ft_strncmp_v3(str, "pwd", 3) == 0)
 		return (2);
-	else if (ft_strncmp_v3(str, "pwd", 3) == 0)
-	{
-		print_error(str);
-		return (-1);
-	}
-	if (ft_strncmp_v3(str, "ls", size) == 0)
+	if (ft_strncmp_v3(str, "exit", 4) == 0)
+		return (4);
+	if (ft_strncmp_v3(str, "env", 3) == 0)
+		return (5);
+	if (ft_strncmp_v3(str, "cd", 2) == 0)
+		return (6);
+	if (ft_strncmp_v3(str, "export", 6) == 0)
+		return (7);
+	if (ft_strncmp_v3(str, "unset", 5) == 0)
+		return (8);
+	else
 		return (3);
-	else if (ft_strncmp_v3(str, "ls", 2) == 0)
-	{
-		print_error(str);
-		return (-1);
-	}
-	return(agree_cmd_v2(str, size));
 }
 
 void	ft_echo(int	i)

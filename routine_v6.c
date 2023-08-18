@@ -1,50 +1,5 @@
 #include "minishell.h"
 
-int	agree_cmd_v2(char *str, int size)
-{
-	if (ft_strncmp_v3(str, "exit", size) == 0)
-		return (4);
-	else if (ft_strncmp_v3(str, "exit", 4) == 0)
-	{
-		print_error(str);
-		return (-1);
-	}
-	if (ft_strncmp_v3(str, "env", size) == 0)
-		return (5);
-	else if (ft_strncmp_v3(str, "env", 3) == 0)
-	{
-		print_error(str);
-		return (-1);
-	}
-	if (ft_strncmp_v3(str, "cd", size) == 0)
-		return (6);
-	else if (ft_strncmp_v3(str, "cd", 2) == 0)
-	{
-		print_error(str);
-		return (-1);
-	}
-	return(agree_cmd_v3(str, size));
-}
-
-int	agree_cmd_v3(char *str, int size)
-{
-	if (ft_strncmp_v3(str, "export", size) == 0)
-		return (7);
-	else if (ft_strncmp_v3(str, "export", 6) == 0)
-	{
-		print_error(str);
-		return (-1);
-	}
-	if (ft_strncmp_v3(str, "unset", size) == 0)
-		return (8);
-	else if (ft_strncmp_v3(str, "unset", 5) == 0)
-	{
-		print_error(str);
-		return (-1);
-	}
-	return (0);
-}
-
 void	print_export(void)
 {
 	int	i;
@@ -154,4 +109,73 @@ char	*add_quote(int k, int i)
 	result[t] = '"';
 	result[t + 1] = '\0';
 	return (result);
+}
+
+int	rdr_env(void)
+{
+	link_list *tmp;
+	tmp = g_var.list;
+	while (tmp)
+	{
+		if (tmp->flag == '|')
+			return (1);
+		if (tmp->flag == '<' || tmp->flag == '>')
+			return (0);
+		tmp = tmp->next;
+	}
+	return (1);
+}
+
+void	search_on_env_v2(int k)
+{
+	char *str;
+	int i;
+	int	t;
+	int	flag;
+
+	flag = 0;
+	t = 0;
+	while (g_var.cmds[k])
+	{
+		i = 0;
+		while (g_var.env_path[i])
+		{
+			str = ft_strjoin(g_var.env_path[i], "/");
+			str = ft_strjoin(str, g_var.cmds[k]->str[0]);
+			if (access(str, 0) == 0)
+				execve_v1(k, t, &flag, str);
+			free(str);
+			i++;
+		}
+		t++;
+		k++;
+	}
+	if (flag == 0)
+		printf("minishell: ls: command not found\n");
+}
+
+void	execve_v1(int k, int t, int *flag, char *str)
+{
+	*flag = 1;
+	g_var.pid[t] = fork();
+	if (g_var.pid[t] == 0)
+	{
+		if (g_var.cmds[k]->rdr_fl == 1)
+		{
+			dup2(g_var.cmds[k]->f_in, STDIN_FILENO);
+			close(g_var.cmds[k]->f_in);
+			execve(str, g_var.cmds[k]->str, g_var.env);
+			free(str);
+			exit(0) ;
+		}
+		if (g_var.cmds[k]->rdr_fl == 2)
+		{
+			dup2(g_var.cmds[k]->f_out, STDOUT_FILENO);
+			close(g_var.cmds[k]->f_out);
+			execve(str, g_var.cmds[k]->str, g_var.env);
+			free(str);
+			exit(0) ;
+		}
+		execve_v2(k, str);
+	}
 }

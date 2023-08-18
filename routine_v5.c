@@ -40,9 +40,15 @@ void	ft_env(void)
 void	ft_pwd(void)
 {
 	char	p[256];
-	dup_func(0);
-	getcwd(p, sizeof(p));
-	printf("%s\n", p);
+		g_var.pid[0] = fork();
+		if (g_var.pid[0] == 0)
+		{
+		dup2(g_var.cmds[0]->f_out, STDOUT_FILENO);
+		getcwd(p, sizeof(p));
+		printf("%s\n", p);
+		close(g_var.cmds[0]->f_out);
+		exit(0);
+		}
 }
 
 void	ft_cd(int k)

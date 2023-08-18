@@ -36,9 +36,8 @@ int	routine(char *str)
 		free(str);
 		return (2);
 	}
-	cmd_init();
-	dup_func(0);
 	rdr_flag();
+	cmd_init();
 	rdr_init();
 	input_to_place();
 	search_cmd();
@@ -103,14 +102,7 @@ void	search_on_env(int k)
 		}
 		t++;
 		k++;
-		waitpid(g_var.pid[t], &g_var.exit_code, 0);
 	}
 	if (flag == 0)
-		printf("minishell: ls: command not found\n");
-}
-
-void	dup_func(int i)
-{
-	//dup2(g_var.cmds[i]->f_in, STDIN_FILENO);
-	dup2(g_var.cmds[i]->f_out, STDOUT_FILENO);
+		printf("minishell: %s: command not found\n", g_var.cmds[0]->str[0]);
 }
