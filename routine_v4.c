@@ -37,21 +37,27 @@ void	search_cmd(void) //fork ekrana birşey yazdırmayan komutlara gitmeyecek. U
 	int result;
 
 	i = 0;
-	result = agree_cmd(g_var.cmds[0]->str[0], i);
-	if (result < 4 || result == 9)
+	result = agree_cmd(g_var.cmds[i]->str[0], i);
+	while (g_var.cmds[i])
 	{
-		if (result == 1)
-			ft_unset(i);
-		if (result == 2)
-			ft_cd(i);
-		if (result == 3)
-			ft_exit(i);
-		if (result == 9)
-			ft_export(i - 1);
+		if (result < 4 || result == 9)
+		{
+			if (result == 1)
+				ft_unset(i);
+			if (result == 2)
+				ft_cd(i);
+			if (result == 3)
+				ft_exit(i);
+			if (result == 9)
+				ft_export(i - 1);
+		}
+		else
+		{
+			split_env();
+			search_cmd_v2(result, i);
+		}
 		i++;
 	}
-	else
-		search_cmd_v2(result, i);
 }
 
 int	agree_cmd(char *str, int i)

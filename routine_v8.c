@@ -125,7 +125,7 @@ void	close_fd(void)
 			close(g_var.cmds[i]->f_in);
 		if (g_var.cmds[i]->f_out > 1)
 			close(g_var.cmds[i]->f_out);
+		waitpid(g_var.pid[i], &g_var.exit_code, 0);
 		i++;
 	}
-	waitpid(g_var.pid[0], &g_var.exit_code, 0);
 }

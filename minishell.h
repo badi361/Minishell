@@ -126,5 +126,4 @@ void		dup_func(int i);
 void		close_fd(void);
 void		search_on_env_v2(int k);
 int			rdr_env(void);
-void		execve_v1(int k, int *flag, char *str);
 #endif

@@ -6,7 +6,8 @@
 
 //                                             HATALAR
 //minishell: de echo -n lı komutları yazdırdıktan sonra üst tuşa bastığımda minishell: silinebiliyo dikkat et
-// rde kısmında dur fonksiyonu ve mantığı öğren
+// rde kısmında dup fonksiyonu ve mantığı öğren
+// export >> a çalışmıyor. dup eklemediğin yerlere ekle
 
 //                                             RDR KOMUTLARI
 // '<' Bir komutun girdisini belirtilen bir dosyadan almasını sağlar. örnek: cat < makefile   (bu komut makefile daki metinleri cat komutuyla ekrana yazdırılmasını sağlar) solda komut sağda dosya yolu olacak. ls < sonminishell gibi
