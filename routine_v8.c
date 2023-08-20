@@ -83,23 +83,47 @@ void	rdr_init(void)
 
 	fd = 0;
 	tmp = g_var.list;
+	int	k;
+	k = 0;
 	while (tmp)
 	{
 		if (tmp->flag == 'i')
 		{
 			fd = open(tmp->content, O_RDONLY);
-			g_var.cmds[0]->f_out = fd;
-			g_var.cmds[0]->f_in = fd;
+			g_var.cmds[k]->f_in = fd;
 		}
 		if (tmp->flag == 'o')
 		{
 			fd = open(tmp->content, O_CREAT | O_TRUNC | O_RDWR, 0777);
-			g_var.cmds[0]->f_out = fd;
+			g_var.cmds[k]->f_out = fd;
 		}
 		if (tmp->flag == 'r')
+		{
 			fd = open(tmp->content, O_CREAT | O_APPEND | O_RDWR, 0777);
-		if (fd == -1)
-			printf("error");
+			g_var.cmds[k]->f_out = fd;
+			g_var.cmds[k]->f_in = fd;
+		}
+		if (tmp->flag == 'h')
+			g_var.cmds[k]->f_in = ft_here_doc(tmp->content);
+		if (tmp->flag == '|')
+			k++;
+		
 		tmp = tmp->next;
 	}
+}
+
+void	close_fd(void)
+{
+	int	i;
+	i = 0;
+	while (i <= g_var.pipe_count)
+	{
+		if (g_var.cmds[i]->f_in > 1)
+			close(g_var.cmds[i]->f_in);
+		if (g_var.cmds[i]->f_out > 1)
+			close(g_var.cmds[i]->f_out);
+		waitpid(g_var.pid[i], &g_var.exit_code, 0);
+		i++;
+	}
+	unlink_to_hd();
 }
