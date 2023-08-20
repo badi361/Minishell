@@ -1,5 +1,50 @@
 #include "minishell.h"
 
+int	agree_cmd_v2(char *str, int size)
+{
+	if (ft_strncmp_v3(str, "exit", size) == 0)
+		return (4);
+	else if (ft_strncmp_v3(str, "exit", 4) == 0)
+	{
+		print_error(str);
+		return (-1);
+	}
+	if (ft_strncmp_v3(str, "env", size) == 0)
+		return (5);
+	else if (ft_strncmp_v3(str, "env", 3) == 0)
+	{
+		print_error(str);
+		return (-1);
+	}
+	if (ft_strncmp_v3(str, "cd", size) == 0)
+		return (6);
+	else if (ft_strncmp_v3(str, "cd", 2) == 0)
+	{
+		print_error(str);
+		return (-1);
+	}
+	return(agree_cmd_v3(str, size));
+}
+
+int	agree_cmd_v3(char *str, int size)
+{
+	if (ft_strncmp_v3(str, "export", size) == 0)
+		return (7);
+	else if (ft_strncmp_v3(str, "export", 6) == 0)
+	{
+		print_error(str);
+		return (-1);
+	}
+	if (ft_strncmp_v3(str, "unset", size) == 0)
+		return (8);
+	else if (ft_strncmp_v3(str, "unset", 5) == 0)
+	{
+		print_error(str);
+		return (-1);
+	}
+	return (0);
+}
+
 void	print_export(void)
 {
 	int	i;
@@ -109,43 +154,4 @@ char	*add_quote(int k, int i)
 	result[t] = '"';
 	result[t + 1] = '\0';
 	return (result);
-}
-
-int	rdr_env(void)
-{
-	link_list *tmp;
-	tmp = g_var.list;
-	while (tmp)
-	{
-		if (tmp->flag == '|')
-			return (1);
-		if (tmp->flag == '<' || tmp->flag == '>')
-			return (0);
-		tmp = tmp->next;
-	}
-	return (1);
-}
-
-void	search_on_env_v2(int k)
-{
-	char *str;
-	int i;
-	int	flag;
-
-	i = 0;
-	flag = 0;
-	while (g_var.env_path[i])
-	{
-		str = ft_strjoin(g_var.env_path[i], "/");
-		str = ft_strjoin(str, g_var.cmds[k]->str[0]);
-		if (access(str, 0) == 0)
-		{
-			flag = 1;
-			execve(str, g_var.cmds[k]->str, g_var.env);
-		}
-		free(str);
-		i++;
-	}
-	if (flag == 0)
-		printf("minishell: ls: command not found\n");
 }

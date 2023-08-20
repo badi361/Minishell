@@ -93,11 +93,9 @@ int	find_path_v2(char *str)
 	int	flag;
 
 	flag = 0;
-	i = -1;
+	i = 0;
 	size = ft_strlen(str);
-	if (str[size - 1] == '=')
-		size--;
-	while (g_var.export[++i])
+	while (g_var.export[i])
 	{
 		k = 0;
 		while (g_var.export[i][k] == str[k] && k < size)
@@ -107,6 +105,7 @@ int	find_path_v2(char *str)
 			flag = 1;
 			break ;
 		}
+		i++;
 	}
 	if (flag == 1)
 		return (i);

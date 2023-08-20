@@ -76,31 +76,19 @@ void	new_env(int	index, int k, int l)
 	}
 }
 
-void	search_cmd_v2(int result, int i) // fork işlemi ile child process oluşturuluyor. main process deki işlemleri child process kopyalar. fork la child process oluştuğunda child process de dönüş değeri yani (0) olacaktir. dolayısıyla child process if bloğuna girecek. main giremeyecek ve i yi arttıracak. main child ı ne yapacak dize izler.
+void	search_cmd_v2(int result, int i)
 {
-	g_var.pid[i] = fork();
-	if (g_var.pid[i] == 0)
-	{
-		dup2(g_var.cmds[i]->f_in, STDIN_FILENO);
-		dup2(g_var.cmds[i]->f_out, STDOUT_FILENO);
-		result = agree_cmd(g_var.cmds[i]->str[0], i);
-		if (result == 4)
-			ft_env();
-		if (result == 5)
-			ft_pwd();
 		if (result == 6)
-			print_export();
+			ft_cd(i);
 		if (result == 7)
-			ft_echo(i);
-		if (result == 8)
 		{
-			if (rdr_env())
-				search_on_env(i);
+			if (g_var.cmds[i]->str[1] == NULL)
+				print_export();
 			else
-				search_on_env_v2(i);	
+				ft_export(i - 1);
 		}
-			exit(0);
-	}
+		if (result == 8)
+			ft_unset(i);
 }
 
 void	ft_unset(int i)

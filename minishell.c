@@ -36,12 +36,12 @@ int	routine(char *str)
 		free(str);
 		return (2);
 	}
-	rdr_flag();
 	cmd_init();
+	dup_func(0);
+	rdr_flag();
 	rdr_init();
 	input_to_place();
 	search_cmd();
-	close_fd();
 	return (0);
 }
 
@@ -75,23 +75,57 @@ void	search_on_env(int k)
 {
 	char *str;
 	int i;
+	int	t;
 	int	flag;
 
 	flag = 0;
-	i = 0;
-	while (g_var.env_path[i])
+	t = 0;
+	while (g_var.cmds[k])
 	{
-		str = ft_strjoin(g_var.env_path[i], "/");
-		str = ft_strjoin(str, g_var.cmds[k]->str[0]);
-		if (access(str, 0) == 0)
+		i = 0;
+		while (g_var.env_path[i])
 		{
-			flag = 1;
-			execve(str, g_var.cmds[k]->str, g_var.env);
+			str = ft_strjoin(g_var.env_path[i], "/");
+			str = ft_strjoin(str, g_var.cmds[k]->str[0]);
+			if (access(str, 0) == 0)
+			{
+				flag = 1;
+				g_var.pid[t] = fork();
+				if (g_var.pid[t] == 0)
+				{
+					execve(str, g_var.cmds[k]->str, g_var.env);
+					free(str);
+					exit(0) ;
+				}
+			}
 			free(str);
+			i++;
 		}
-		free(str);
-		i++;
+		t++;
+		k++;
+		waitpid(g_var.pid[t], &g_var.exit_code, 0);
 	}
 	if (flag == 0)
-		printf("minishell: %s: command not found\n", g_var.cmds[0]->str[0]);
+		printf("minishell: ls: command not found\n");
+}
+
+void	dup_func(int i)
+{
+	dup2(g_var.cmds[i]->f_in, STDIN_FILENO);
+	dup2(g_var.cmds[i]->f_out, STDOUT_FILENO);
+}
+
+void	close_fd(pipe_list *cmds)
+{
+	int	i;
+
+	i = 0;
+	while (i < g_var.pipe_count)
+	{
+		if (cmds->f_in != g_var.pipe[i][0])
+			close(g_var.pipe[i][0]);
+		if (cmds->f_out != g_var.pipe[i][1])
+			close(g_var.pipe[i][1]);
+		i++;
+	}
 }

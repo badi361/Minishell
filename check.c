@@ -88,4 +88,3 @@ int	rdr_pipe_check_v3(void) // hata kontrolleri
 	}
 	return (0);
 }
-

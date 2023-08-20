@@ -23,8 +23,6 @@ typedef struct pipe_var
 	int		f_in;
 	int		f_out;
 	int		size;
-	int		rdr_fl;
-
 }			pipe_list;
 
 struct s_var
@@ -90,7 +88,7 @@ int			ft_strlen_v3(char *s, char c);
 int			find_path(char *str);
 int			split_env(void);
 void		search_on_env(int k);
-int			agree_cmd(char *str, int i);
+int			agree_cmd(char *str);
 void		search_cmd(void);
 void		ft_echo(int	i);
 int			just_echo(int i);
@@ -102,6 +100,8 @@ void		ft_pwd(void);
 void		ft_cd(int k);
 void		cd_back(char *str);
 void		print_error(char *str);
+int			agree_cmd_v2(char *str, int size);
+int			agree_cmd_v3(char *str, int size);
 void		cd_tilde(char *str);
 int			malloc_path(int i, char *str);
 void		cd_next(char *str, char *next);
@@ -123,7 +123,5 @@ int			adasdad(int i, int k);
 int			adasdad_v2(int i, int k);
 void		rdr_init(void);
 void		dup_func(int i);
-void		close_fd(void);
-void		search_on_env_v2(int k);
-int			rdr_env(void);
+void		close_fd(pipe_list *cmds);
 #endif
