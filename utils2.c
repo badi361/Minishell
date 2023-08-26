@@ -1,13 +1,5 @@
 #include "minishell.h"
 
-void	dollar_help(int i)
-{
-	if (g_var.str[i + 1] == 0)
-		g_var.dolarflag = 1;
-	else
-		g_var.dolarflag = 0;
-}
-
 char	*only_dolar(void)
 {
 	char	*str;

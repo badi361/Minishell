@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-int	split_env(void)
+int	split_env(int l)
 {
 	int i;
     int	k;
@@ -10,7 +10,10 @@ int	split_env(void)
 	i = 0;
 	k = find_path("PATH=");
 	if (k == -1)
+	{
+		printf("minishell: %s: command not found\n", g_var.cmds[l]->str[0]);
 		return (0);
+	}
 	str = ft_split(&g_var.env[k][5], ':');
 	g_var.env_path = (char **)malloc(sizeof(char *) * (ft_strlen_v3(&g_var.env[k][5], ':') + 1));
 	while (i < ft_strlen_v3(&g_var.env[k][5], ':'))
@@ -37,10 +40,13 @@ void	search_cmd(void) //fork ekrana birşey yazdırmayan komutlara gitmeyecek. U
 	int result;
 
 	i = 0;
-	result = agree_cmd(g_var.cmds[i]->str[0], i);
 	while (g_var.cmds[i])
 	{
-		if (result < 4 || result == 9)
+		if (g_var.cmds[i]->str[0])
+			result = agree_cmd(g_var.cmds[i]->str[0], i);
+		else
+			return ;
+		if ((result < 4 || result == 9) && g_var.pipe_count == 0)
 		{
 			if (result == 1)
 				ft_unset(i);
@@ -52,10 +58,7 @@ void	search_cmd(void) //fork ekrana birşey yazdırmayan komutlara gitmeyecek. U
 				ft_export(i - 1);
 		}
 		else
-		{
-			split_env();
 			search_cmd_v2(result, i);
-		}
 		i++;
 	}
 }

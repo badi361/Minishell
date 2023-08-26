@@ -81,9 +81,9 @@ void	search_cmd_v2(int result, int i) // fork işlemi ile child process oluştur
 	g_var.pid[i] = fork();
 	if (g_var.pid[i] == 0)
 	{
+		close_fd_2(g_var.cmds[i]);
 		dup2(g_var.cmds[i]->f_in, STDIN_FILENO);
 		dup2(g_var.cmds[i]->f_out, STDOUT_FILENO);
-		result = agree_cmd(g_var.cmds[i]->str[0], i);
 		if (result == 4)
 			ft_env();
 		if (result == 5)
@@ -94,10 +94,8 @@ void	search_cmd_v2(int result, int i) // fork işlemi ile child process oluştur
 			ft_echo(i);
 		if (result == 8)
 		{
-			if (rdr_env())
-				search_on_env(i);
-			else
-				search_on_env_v2(i);	
+			split_env(i);
+			search_on_env(i); // burayı silince pwd | wc çalışıyor düzenle burayı
 		}
 			exit(0);
 	}
@@ -158,4 +156,19 @@ int	adasdad_v2(int i, int k)
 	}
 	free(str);
 	return (-1);
+}
+
+void	close_fd_2(pipe_list *cmds)
+{
+	int	i;
+
+	i = 0;
+	while (i < g_var.pipe_count)
+	{
+		if (cmds->f_in != g_var.pipe[i][0])
+			close(g_var.pipe[i][0]);
+		if (cmds->f_out != g_var.pipe[i][1])
+			close(g_var.pipe[i][1]);
+		i++;
+	}
 }

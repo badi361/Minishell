@@ -1,21 +1,10 @@
 #include "minishell.h"
 
-int	get_commands(void) // terminalden girilen komutları array imin içinde atıyorum.
+int	pipe_check(void)
 {
-	int			i;
 	link_list 	*tmp;
 
-	tmp = g_var.list;
-	i = 0;
 	g_var.list_size = link_lstsize(g_var.list);
-	g_var.array = malloc(sizeof(char *) * (g_var.list_size + 1));
-	while (tmp)
-	{
-		g_var.array[i] = ft_strdup(tmp->content);
-		i++;
-		tmp = tmp->next;
-	}
-	g_var.array[i] = NULL;
 	tmp = g_var.list;
 	if (tmp == NULL)
 		return (1);

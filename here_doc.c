@@ -7,7 +7,7 @@ int	ft_here_doc(char *data)
 
 	unlink_to_hd();
 	g_var.hd_flag = 0;
-	fd = open(".temporary", O_RDWR | O_CREAT, 0777);
+	fd = open(".temporary", O_RDWR | O_CREAT | O_TRUNC, 0777);
 	while (1)
 	{
 		str = readline("> ");
@@ -20,7 +20,7 @@ int	ft_here_doc(char *data)
 		free(str);
 	}
 	close(fd);
-	fd = open(".temporary", O_RDONLY, 0777);
+	fd = open(".temporary", O_RDONLY | O_TRUNC, 0777);
 	g_var.hd_flag = 1;
 	return (fd);
 }

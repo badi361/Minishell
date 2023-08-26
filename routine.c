@@ -88,7 +88,6 @@ char	*get_dolar(char *str, char c)
 			i++;
 			while (str[i] == '$')
 				i++;
-			dollar_help(i);
 			env = get_env_var(&str[i], &i, &j, g_var.env);
 			if (env)
 				result = ft_strjoin_v3(result, env);

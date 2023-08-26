@@ -47,28 +47,11 @@ int	rdr_pipe_check(void) // hata kontrolleri
 		if (tmp->content[0] == '>' && tmp->content[1] == '>')
 			if (tmp->next == NULL)
 				return (rdr_pipe_return());
-		if (rdr_pipe_check_v2())
-			return (rdr_pipe_return());
 		tmp = tmp->next;
 	}
 	return (0);
 }
 
-int	rdr_pipe_check_v2(void)
-{
-	link_list *tmp;
-
-	tmp = g_var.list;
-	while (tmp)
-	{
-		if (tmp->flag == '|')
-			if (tmp->next != NULL)
-				if (tmp->next->flag == '<' || tmp->next->flag == '>')
-					return (1);
-		tmp = tmp->next;
-	}
-	return (0);
-}
 
 int	rdr_pipe_check_v3(void) // hata kontrolleri
 {

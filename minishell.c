@@ -31,7 +31,7 @@ int	routine(char *str)
 		free(str);
 		return (1);
 	}
-	if (rdr_pipe_check() || rdr_pipe_check_v3() || get_commands())
+	if (rdr_pipe_check() || rdr_pipe_check_v3() || pipe_check())
 	{
 		free(str);
 		return (2);
@@ -79,6 +79,13 @@ void	search_on_env(int k)
 
 	flag = 0;
 	i = 0;
+	if (!ft_strncmp_v3(g_var.cmds[k]->str[0], "/bin", 4) && g_var.cmds[k]->str[0][4])
+	{
+		str = ft_strdup(&g_var.cmds[k]->str[0][4]);
+		free(g_var.cmds[k]->str[0]);
+		g_var.cmds[k]->str[0] = ft_strdup(str);
+		free(str);
+	}
 	while (g_var.env_path[i])
 	{
 		str = ft_strjoin(g_var.env_path[i], "/");
@@ -87,11 +94,10 @@ void	search_on_env(int k)
 		{
 			flag = 1;
 			execve(str, g_var.cmds[k]->str, g_var.env);
-			free(str);
 		}
 		free(str);
 		i++;
 	}
 	if (flag == 0)
-		printf("minishell: %s: command not found\n", g_var.cmds[0]->str[0]);
+		printf("minishell: %s: command not found\n", g_var.cmds[k]->str[0]);
 }
