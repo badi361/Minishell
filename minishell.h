@@ -44,7 +44,6 @@ struct s_var
 	int			**pipe;
 	char		***string_3;
 	char		*path;
-	char		**here_doc;
 	int			hd_flag;
 }	g_var;
 
@@ -117,13 +116,14 @@ void		refresh_env(int index);
 void		refresh_export(int index);
 void		ft_unset(int i);
 char		*find_equal_v3(char *str);
-int			adasdad(int i, int k);
-int			adasdad_v2(int i, int k);
+int			find_on_env(int i, int k);
+int			find_on_export(int i, int k);
 void		rdr_init(void);
 void		dup_func(int i);
 void		close_fd(void);
-int			ft_here_doc(char *data);
+void		ft_here_doc(char *data, int k);
 void		write_on_fd(char *str, int fd);
 void		unlink_to_hd(void);
 void		close_fd_2(pipe_list *cmds);
+void		leaks_destroyer(void);
 #endif

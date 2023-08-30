@@ -95,7 +95,7 @@ void	search_cmd_v2(int result, int i) // fork işlemi ile child process oluştur
 		if (result == 8)
 		{
 			split_env(i);
-			search_on_env(i); // burayı silince pwd | wc çalışıyor düzenle burayı
+			search_on_env(i);
 		}
 			exit(0);
 	}
@@ -110,15 +110,15 @@ void	ft_unset(int i)
 	k = 1;
 	while (g_var.cmds[i]->str[k])
 	{
-		index1 = adasdad(i, k);
-		index2 = adasdad_v2(i, k);
+		index1 = find_on_env(i, k);
+		index2 = find_on_export(i, k);
 		refresh_env(index1);
 		refresh_export(index2);
 		k++;
 	}
 }
 
-int	adasdad(int i, int k)
+int	find_on_env(int i, int k)
 {
 	int	t;
 	char *str;
@@ -132,13 +132,13 @@ int	adasdad(int i, int k)
 			free(str);
 			return (t);
 		}
+		free(str);
 		t++;
 	}
-	free(str);
 	return (-1);
 }
 
-int	adasdad_v2(int i, int k)
+int	find_on_export(int i, int k)
 {
 	int	t;
 	char *str;
@@ -152,9 +152,9 @@ int	adasdad_v2(int i, int k)
 			free(str);
 			return (t);
 		}
+		free(str);
 		t++;
 	}
-	free(str);
 	return (-1);
 }
 

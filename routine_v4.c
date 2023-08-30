@@ -65,17 +65,17 @@ void	search_cmd(void) //fork ekrana birşey yazdırmayan komutlara gitmeyecek. U
 
 int	agree_cmd(char *str, int i)
 {
-	if (ft_strncmp_v3(str, "unset", 5) == 0)
+	if (ft_strncmp_v3(str, "unset", 6) == 0)
 		return (1);
 	if (ft_strncmp_v3(str, "cd", 3) == 0)
 		return (2);
-	if (ft_strncmp_v3(str, "exit", 4) == 0)
+	if (ft_strncmp_v3(str, "exit", 5) == 0)
 		return (3);
-	if (ft_strncmp_v3(str, "env", 3) == 0)
+	if (ft_strncmp_v3(str, "env", 4) == 0)
 		return (4);
-	if (ft_strncmp_v3(str, "pwd", 2) == 0)
+	if (ft_strncmp_v3(str, "pwd", 4) == 0)
 		return (5);
-	if (ft_strncmp_v3(str, "export", 6) == 0)
+	if (ft_strncmp_v3(str, "export", 7) == 0)
 	{
 		if (g_var.cmds[i]->str[1] == NULL)
 			return (6);

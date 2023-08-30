@@ -42,6 +42,7 @@ int	routine(char *str)
 	input_to_place();
 	search_cmd();
 	close_fd();
+	free(str);
 	return (0);
 }
 
@@ -68,6 +69,7 @@ int	main(int ac, char **av, char **env)
 		g_var.str = readline("minishell: ");
 		add_history(g_var.str);
 		routine(g_var.str);
+		leaks_destroyer();
 	}
 }
 
@@ -79,14 +81,12 @@ void	search_on_env(int k)
 
 	flag = 0;
 	i = 0;
-	if (!ft_strncmp_v3(g_var.cmds[k]->str[0], "/bin", 4) && g_var.cmds[k]->str[0][4])
+	if (access(g_var.cmds[k]->str[0], 0) == 0)
 	{
-		str = ft_strdup(&g_var.cmds[k]->str[0][4]);
-		free(g_var.cmds[k]->str[0]);
-		g_var.cmds[k]->str[0] = ft_strdup(str);
-		free(str);
+		flag = 1;
+		execve(g_var.cmds[k]->str[0], g_var.cmds[k]->str, g_var.env);
 	}
-	while (g_var.env_path[i])
+	while (g_var.env_path[i] && flag == 0)
 	{
 		str = ft_strjoin(g_var.env_path[i], "/");
 		str = ft_strjoin(str, g_var.cmds[k]->str[0]);
@@ -100,4 +100,48 @@ void	search_on_env(int k)
 	}
 	if (flag == 0)
 		printf("minishell: %s: command not found\n", g_var.cmds[k]->str[0]);
+}
+
+void	leaks_destroyer(void)
+{
+	int	i;
+
+	if (g_var.pid)
+		free(g_var.pid);
+	i = -1;
+	if (g_var.cmds)
+	{
+		while (g_var.cmds[++i])
+			free(g_var.cmds[i]);
+		free(g_var.cmds);
+	}
+	i = -1;
+	if (g_var.env_path)
+	{
+		while (g_var.cmds[++i])
+			free(g_var.cmds[i]);
+		free(g_var.cmds);
+	}
+	if (g_var.str)
+		free(g_var.str);
+	i = -1;
+	if (g_var.pipe_count >= 0)
+	{
+		while (++i < g_var.pipe_count)
+			free(g_var.pipe[i]);
+		free(g_var.pipe);
+	}
+	int k = -1;
+	i = -1;
+	if (g_var.string_3)
+	{
+		while (g_var.string_3[++i])
+		{
+			k = -1;
+			while (g_var.string_3[i][++k])
+				free(g_var.string_3[i][k]);
+		free(g_var.string_3[i]);
+		}
+		free(g_var.string_3);
+	}
 }

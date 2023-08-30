@@ -104,7 +104,7 @@ void	rdr_init(void)
 			g_var.cmds[k]->f_in = fd;
 		}
 		if (tmp->flag == 'h')
-			g_var.cmds[k]->f_in = ft_here_doc(tmp->content);
+			ft_here_doc(tmp->content, k);
 		if (tmp->flag == '|')
 			k++;
 		

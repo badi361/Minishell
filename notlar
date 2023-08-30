@@ -6,7 +6,6 @@
 
 //                                             HATALAR
 // cat << a yapıp control d atınca açılan dosya kapanmıyor
-// exit yazdığımda herşeyi free le LEAK BIRAKMA!
 //                                                RDR KOMUTLARI
 // '<' Bir komutun girdisini belirtilen bir dosyadan almasını sağlar. örnek: cat < makefile   (bu komut makefile daki metinleri cat komutuyla ekrana yazdırılmasını sağlar) solda komut sağda dosya yolu olacak. ls < sonminishell gibi
 // '>' Bir komutun çıktısını belirtilen bir dosyaya yazmasını sağlar. örnek: pwd > makefile (pwd komutunun çıktısını makefile adlı dosyaya yazar. dosya yoksa oluşturur ve yazar. varsa sadece yazar)

@@ -39,8 +39,9 @@ int	rdr_pipe_check(void) // hata kontrolleri
 			if (tmp->next == NULL)
 				return (rdr_pipe_return());
 		if (tmp->content[0] == '<' || tmp->content[0] == '>')
-			if (tmp->next->content[0] == '|')
-				return (rdr_pipe_return());
+			if (tmp->next != NULL)
+				if (tmp->next->content[0] == '|')
+					return (rdr_pipe_return());
 		if (tmp->content[0] == '<' && tmp->content[1] == '<')
 			if (tmp->next == NULL)
 				return (rdr_pipe_return());
@@ -56,7 +57,6 @@ int	rdr_pipe_check(void) // hata kontrolleri
 int	rdr_pipe_check_v3(void) // hata kontrolleri
 {
 	link_list *tmp;
-
 	tmp = g_var.list;
 	if (tmp)
 		if (tmp->flag == '|')
