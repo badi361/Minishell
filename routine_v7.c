@@ -94,7 +94,7 @@ void	search_cmd_v2(int result, int i) // fork işlemi ile child process oluştur
 			ft_echo(i);
 		if (result == 8)
 		{
-			split_env(i);
+			split_env();
 			search_on_env(i);
 		}
 			exit(0);

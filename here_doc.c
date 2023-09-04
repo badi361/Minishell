@@ -12,6 +12,11 @@ void	ft_here_doc(char *data, int k)
 	while (1)
 	{
 		str = readline("> ");
+		if (g_var.hd_flag == 2)
+		{
+			free(str);
+			break ;
+		}
 		if (!ft_strncmp(str, "> ", ft_strlen(str)))
 			write(fd, "\n", 1);
 		else if (!ft_strncmp(data, str, ft_strlen(str)))
@@ -40,7 +45,7 @@ void	unlink_to_hd(void)
 	char *temporary;
 	char str[128];
 
-	if (g_var.hd_flag)
+	if (g_var.hd_flag == 1)
 	{
 		getcwd(str, sizeof(str));
 		temporary = ft_strjoin(str, "/.temporary");

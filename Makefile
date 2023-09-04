@@ -13,10 +13,10 @@ CFLAGS		=
 
 RM			=		rm -rf
 
+all:		$(NAME)
+
 $(LIBFT):
 			make re -C ./libft
-
-all:		$(NAME)
 
 $(NAME):	$(OBJS) $(LIBFT)
 				$(CC) $(CFLAGS) -lreadline $(OBJS) libft/libft.a  -o $(NAME)

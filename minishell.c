@@ -5,6 +5,8 @@ void	malloc_env(char **env)
 	int	i;
 
 	i = 0;
+	signal(SIGINT, signal_handle);
+	signal(SIGQUIT, SIG_IGN);
 	while (env[i])
 		i++;
 	g_var.env_size = i;
@@ -40,7 +42,8 @@ int	routine(char *str)
 	cmd_init();
 	rdr_init();
 	input_to_place();
-	search_cmd();
+	if (g_var.exit != 1)
+		search_cmd();
 	close_fd();
 	free(str);
 	return (0);
@@ -67,9 +70,19 @@ int	main(int ac, char **av, char **env)
 	while (1)
 	{
 		g_var.str = readline("minishell: ");
+		g_var.exit = 0;
+		if (!g_var.str)
+		{
+			write(1, "\033[2D", 4);
+			write(1, "\033[0mexit\n", 9);
+			exit(0);
+		}
 		add_history(g_var.str);
 		routine(g_var.str);
-		leaks_destroyer();
+	//	if (g_var.exit != 1)
+	//		leaks_destroyer();
+	//	else
+	//		free(g_var.str);
 	}
 }
 
@@ -105,43 +118,37 @@ void	search_on_env(int k)
 void	leaks_destroyer(void)
 {
 	int	i;
-
-	if (g_var.pid)
-		free(g_var.pid);
-	i = -1;
+	 if (g_var.pid)
+	 	free(g_var.pid);
+	i = 0;
 	if (g_var.cmds)
 	{
-		while (g_var.cmds[++i])
+		while (g_var.cmds[i])
+		{
 			free(g_var.cmds[i]);
+			i++;
+		}
 		free(g_var.cmds);
 	}
 	i = -1;
 	if (g_var.env_path)
 	{
-		while (g_var.cmds[++i])
-			free(g_var.cmds[i]);
-		free(g_var.cmds);
+		while (g_var.env_path[++i])
+			free(g_var.env_path[i]);
+		free(g_var.env_path);
 	}
 	if (g_var.str)
 		free(g_var.str);
-	i = -1;
-	if (g_var.pipe_count >= 0)
+	leaks_destroyer_v2();
+}
+
+void	signal_handle(int signal)
+{
+	if (signal == SIGINT)
 	{
-		while (++i < g_var.pipe_count)
-			free(g_var.pipe[i]);
-		free(g_var.pipe);
-	}
-	int k = -1;
-	i = -1;
-	if (g_var.string_3)
-	{
-		while (g_var.string_3[++i])
-		{
-			k = -1;
-			while (g_var.string_3[i][++k])
-				free(g_var.string_3[i][k]);
-		free(g_var.string_3[i]);
-		}
-		free(g_var.string_3);
+		g_var.hd_flag = 2;
+		g_var.exit = 1;
+		write(1, "\033[A", 3);
+		ioctl(0, TIOCSTI, "\n");
 	}
 }

@@ -111,3 +111,29 @@ char	*add_quote(int k, int i)
 	return (result);
 }
 
+void	leaks_destroyer_v2(void)
+{
+	int i;
+	int	k;
+
+	i = -1;
+	k = -1;
+	if (g_var.pipe_count >= 0)
+	{
+		while (++i < g_var.pipe_count)
+			free(g_var.pipe[i]);
+		free(g_var.pipe);
+	}
+	i = -1;
+	if (g_var.string_3)
+	{
+		while (g_var.string_3[++i])
+		{
+			k = -1;
+			while (g_var.string_3[i][++k])
+				free(g_var.string_3[i][k]);
+		free(g_var.string_3[i]);
+		}
+	free(g_var.string_3);
+	}
+}

@@ -6,7 +6,11 @@
 
 //                                             HATALAR
 // cat << a yapıp control d atınca açılan dosya kapanmıyor
-//                                                RDR KOMUTLARI
+// clear enter enter patladı (leaks fonksiyonu)
+// cat cat ls çıkmıyor.
+// old pwd güncelle
+// PATH i silince bin ls command not found olmicak(bunu düzelttim fakat ls yazınca hata mesajı basmıyor)
+//                                               RDR KOMUTLARI
 // '<' Bir komutun girdisini belirtilen bir dosyadan almasını sağlar. örnek: cat < makefile   (bu komut makefile daki metinleri cat komutuyla ekrana yazdırılmasını sağlar) solda komut sağda dosya yolu olacak. ls < sonminishell gibi
 // '>' Bir komutun çıktısını belirtilen bir dosyaya yazmasını sağlar. örnek: pwd > makefile (pwd komutunun çıktısını makefile adlı dosyaya yazar. dosya yoksa oluşturur ve yazar. varsa sadece yazar)
 // '>>' Bir komutun çıktısını belirtilen bir dosyaya eklemesini sağlar. örnek: pwd >> makefile(makefile isimli dosyaya girer. dosyanın sonuna gider ve solda verdiğimiz komutun çıktısını dosyanın sonuna yazar)
