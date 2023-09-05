@@ -79,14 +79,14 @@ int	main(int ac, char **av, char **env)
 		}
 		add_history(g_var.str);
 		routine(g_var.str);
-	//	if (g_var.exit != 1)
-	//		leaks_destroyer();
-	//	else
-	//		free(g_var.str);
+		if (g_var.exit != 1 && g_var.str[0])
+			leaks_destroyer();
+		else
+			free(g_var.str);
 	}
 }
 
-void	search_on_env(int k)
+void	search_on_env(int k, int t)
 {
 	char *str;
 	int i;
@@ -99,6 +99,8 @@ void	search_on_env(int k)
 		flag = 1;
 		execve(g_var.cmds[k]->str[0], g_var.cmds[k]->str, g_var.env);
 	}
+	else if (t == 0 && flag == 0)
+		printf("minishell: %s: No such file or directory\n", g_var.cmds[k]->str[0]);
 	while (g_var.env_path[i] && flag == 0)
 	{
 		str = ft_strjoin(g_var.env_path[i], "/");

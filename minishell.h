@@ -87,7 +87,7 @@ void		input_to_place(void);
 int			ft_strlen_v3(char *s, char c);
 int			find_path(char *str);
 int			split_env(void);
-void		search_on_env(int k);
+void		search_on_env(int k, int t);
 int			agree_cmd(char *str, int i);
 void		search_cmd(void);
 void		ft_echo(int	i);
@@ -129,4 +129,6 @@ void		close_fd_2(pipe_list *cmds);
 void		leaks_destroyer(void);
 void		leaks_destroyer_v2(void);
 void		signal_handle(int signal);
+void		cd_helper(char *str);
+void		cd_helper_v2(char *str);
 #endif

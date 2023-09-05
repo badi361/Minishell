@@ -115,6 +115,7 @@ void	rdr_init(void)
 void	close_fd(void)
 {
 	int	i;
+
 	i = 0;
 	while (i <= g_var.pipe_count)
 	{
@@ -122,6 +123,11 @@ void	close_fd(void)
 			close(g_var.cmds[i]->f_in);
 		if (g_var.cmds[i]->f_out > 1)
 			close(g_var.cmds[i]->f_out);
+		i++;
+	}
+	i = 0;
+	while (i <= g_var.pipe_count)
+	{
 		waitpid(g_var.pid[i], &g_var.exit_code, 0);
 		i++;
 	}

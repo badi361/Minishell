@@ -7,6 +7,7 @@ void	cd_back(char *str)
 	char *ktm;
 
 	l = 0;
+	cd_helper(str);
 	i = ft_strlen(str) - 1;
 	if (str[i] == '/')
 		i--;
@@ -20,6 +21,7 @@ void	cd_back(char *str)
 	}
 	ktm[l] = '\0';
 	chdir(ktm);
+	cd_helper_v2(ktm);
 	free(ktm);
 }
 
@@ -31,6 +33,7 @@ void	cd_tilde(char *str)
 
 	counter = 0;
 	i = 0;
+	cd_helper(str);
 	while (str[i])
 	{
 		if (str[i] == '/')
@@ -51,6 +54,7 @@ void	cd_tilde(char *str)
 		ktm[counter] = str[counter];
 	ktm[counter] = '\0';
 	chdir(ktm);
+	cd_helper_v2(ktm);
 	free(ktm);
 }
 
@@ -82,6 +86,7 @@ void	cd_next(char *str, char *next)
 
 	t = 0;
 	i = 0;
+	cd_helper(str);
 	ktm = malloc(sizeof(char) * (ft_strlen(str) + ft_strlen(next) + 1));
 	while (str[i])
 	{
@@ -99,5 +104,29 @@ void	cd_next(char *str, char *next)
 	ktm[i] = '\0';
 	if (chdir(ktm) != 0)
 		printf("minishell: cd: %s: No such file or directory\n", next);
+	else
+		cd_helper_v2(ktm);
 	free(ktm);
+}
+
+void	cd_helper(char *str)
+{
+	int	result;
+
+	result = find_path("OLDPWD");
+	free(g_var.env[result]);
+	free(g_var.export[result]);
+	g_var.env[result] = ft_strjoin("OLDPWD=", str);
+	g_var.export[result] = ft_strjoin("OLDPWD=", str);
+}
+
+void	cd_helper_v2(char *str)
+{
+	int	result;
+
+	result = find_path("PWD");
+	free(g_var.env[result]);
+	free(g_var.export[result]);
+	g_var.env[result] = ft_strjoin("PWD", str);
+	g_var.export[result] = ft_strjoin("PWD", str);
 }

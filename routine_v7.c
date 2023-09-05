@@ -78,6 +78,7 @@ void	new_env(int	index, int k, int l)
 
 void	search_cmd_v2(int result, int i) // fork işlemi ile child process oluşturuluyor. main process deki işlemleri child process kopyalar. fork la child process oluştuğunda child process de dönüş değeri yani (0) olacaktir. dolayısıyla child process if bloğuna girecek. main giremeyecek ve i yi arttıracak. main child ı ne yapacak dize izler.
 {
+	int	t;
 	g_var.pid[i] = fork();
 	if (g_var.pid[i] == 0)
 	{
@@ -94,8 +95,8 @@ void	search_cmd_v2(int result, int i) // fork işlemi ile child process oluştur
 			ft_echo(i);
 		if (result == 8)
 		{
-			split_env();
-			search_on_env(i);
+			t = split_env();
+			search_on_env(i, t);
 		}
 			exit(0);
 	}
