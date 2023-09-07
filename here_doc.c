@@ -25,7 +25,7 @@ void	ft_here_doc(char *data, int k)
 		}
 		if (!ft_strncmp(str, "> ", ft_strlen(str)))
 			write(fd, "\n", 1);
-		else if (!ft_strncmp(data, str, ft_strlen(str)))
+		else if (!ft_strcmp(data, str))
 		{
 			free(str);
 			break ;

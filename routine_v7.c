@@ -83,6 +83,8 @@ void	search_cmd_v2(int result, int i) // fork işlemi ile child process oluştur
 	if (g_var.pid[i] == 0)
 	{
 		close_fd_2(g_var.cmds[i]);
+		if (g_var.cmds[i]->f_out == -1 || g_var.cmds[i]->f_in == -1)
+			exit(0);
 		dup2(g_var.cmds[i]->f_in, STDIN_FILENO);
 		dup2(g_var.cmds[i]->f_out, STDOUT_FILENO);
 		if (result == 4)

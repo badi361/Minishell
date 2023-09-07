@@ -76,7 +76,7 @@ char	*find_equal_v3(char *str)
 	return (result);
 }
 
-void	rdr_init(void)
+int	rdr_init(void)
 {
 	link_list *tmp;
 	int	fd;
@@ -107,9 +107,15 @@ void	rdr_init(void)
 			ft_here_doc(tmp->content, k);
 		if (tmp->flag == '|')
 			k++;
-		
+		if (fd == -1)
+		{
+			g_var.cmds[k]->f_out = -1;
+			fd_error(fd, tmp->content);
+			return (1);
+		}
 		tmp = tmp->next;
 	}
+	return (0);
 }
 
 void	close_fd(void)
@@ -126,10 +132,28 @@ void	close_fd(void)
 		i++;
 	}
 	i = 0;
+	while (i < g_var.pipe_count)
+	{
+		close(g_var.pipe[i][0]);
+		close(g_var.pipe[i][1]);
+		i++;
+	}
+	i = 0;
 	while (i <= g_var.pipe_count)
 	{
 		waitpid(g_var.pid[i], &g_var.exit_code, 0);
 		i++;
 	}
 	unlink_to_hd();
+}
+
+void	fd_error(int fd, char *str)
+{
+	if (fd == -1)
+		printf("minishell: %s: No such file or directory\n", str);
+	else
+	{
+		printf("minishell: syntax error near unexpected token `%s'\n", str);
+		g_var.exit_code = 258;
+	}
 }

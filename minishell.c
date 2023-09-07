@@ -40,8 +40,8 @@ int	routine(char *str)
 	}
 	rdr_flag();
 	cmd_init();
-	rdr_init();
 	input_to_place();
+	rdr_init();
 	if (g_var.exit != 1)
 		search_cmd();
 	close_fd();
@@ -84,7 +84,7 @@ int	main(int ac, char **av, char **env)
 			leaks_destroyer();
 		else if (result != 1)
 			free(g_var.str);
-		system("leaks minishell");
+		//system("leaks minishell");
 	}
 }
 
@@ -155,4 +155,18 @@ void	signal_handle(int signal)
 		write(1, "\033[A", 3);
 		ioctl(0, TIOCSTI, "\n");
 	}
+}
+
+int ft_strcmp(char *s1, char *s2)
+{
+	int	i;
+
+	i = 0;
+	while ((s1[i] != '\0' || s2[i] != '\0'))
+	{
+		if (s1[i] != s2[i])
+			return (((unsigned char *)s1)[i] - ((unsigned char *)s2)[i]);
+		i++;
+	}
+	return (0);
 }

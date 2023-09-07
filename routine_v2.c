@@ -13,7 +13,7 @@ int	pipe_check(void)
 		while (tmp->next)
 			tmp = tmp->next;
 		if (tmp->flag == '|')
-			return (rdr_pipe_return_v2('|'));
+			return (rdr_pipe_return_v2("|"));
 	}
 	return (0);
 }
@@ -33,9 +33,9 @@ int	link_lstsize(link_list *lst)
 	return (i);
 }
 
-int	rdr_pipe_return_v2(char c)
+int	rdr_pipe_return_v2(char *c)
 {
-	printf("minishell: syntax error near unexpected token `%c'\n", c);
+	printf("minishell: syntax error near unexpected token `%s'\n", c);
 	g_var.exit_code = 258;
 	return (1);
 }
