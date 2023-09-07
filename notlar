@@ -5,7 +5,7 @@
 // Parent process child process i bu fonksiyona yollar. Child process verileri okuyacak ve Parent process e aktaracaktır./
 
 //                                             HATALAR
-// << a dan sonra ctrl d atınca seg yiyo.
+//
 //                                               RDR KOMUTLARI
 // '<' Bir komutun girdisini belirtilen bir dosyadan almasını sağlar. örnek: cat < makefile   (bu komut makefile daki metinleri cat komutuyla ekrana yazdırılmasını sağlar) solda komut sağda dosya yolu olacak. ls < sonminishell gibi
 // '>' Bir komutun çıktısını belirtilen bir dosyaya yazmasını sağlar. örnek: pwd > makefile (pwd komutunun çıktısını makefile adlı dosyaya yazar. dosya yoksa oluşturur ve yazar. varsa sadece yazar)

@@ -64,25 +64,27 @@ char	*handle_regular(char *str, int *index)
 
 int	main(int ac, char **av, char **env)
 {
+	int	result;
 	(void)ac;
 	(void)av;
 	malloc_env(env);
 	while (1)
 	{
-		g_var.str = readline("minishell: ");
+		g_var.str = readline("minishell$ ");
 		g_var.exit = 0;
 		if (!g_var.str)
 		{
-			write(1, "\033[2D", 4);
-			write(1, "\033[0mexit\n", 9);
+			write(1, "\033[2D", 4); // 2D iki satır kaydır. \033 esc yi temsil eder.
+			write(1, "\033[0mexit\n", 9); // [0 terminalin renklerinin varsayılan haline dönemsini sağlar.
 			exit(0);
 		}
 		add_history(g_var.str);
-		routine(g_var.str);
-		if (g_var.exit != 1 && g_var.str[0])
+		result = routine(g_var.str);
+		if (g_var.exit != 1 && g_var.str[0] && result == 0) 
 			leaks_destroyer();
-		else
+		else if (result != 1)
 			free(g_var.str);
+		system("leaks minishell");
 	}
 }
 

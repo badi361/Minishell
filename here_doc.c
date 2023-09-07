@@ -12,6 +12,12 @@ void	ft_here_doc(char *data, int k)
 	while (1)
 	{
 		str = readline("> ");
+		if (!str)
+		{
+			free(str);
+			write(1, "\033[2D", 5);
+			break ;
+		}
 		if (g_var.hd_flag == 2)
 		{
 			free(str);
