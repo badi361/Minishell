@@ -58,7 +58,7 @@ void	ft_cd(int k)
 		{
 			if (g_var.cmds[k]->str[1][2])
 			{
-				printf("minishell: cd: %s: No such file or directory\n", g_var.cmds[k]->str[1]);
+				no_such(g_var.cmds[k]->str[1]);
 				return ;
 			}
 			cd_back(str);
@@ -82,4 +82,5 @@ void	ft_cd(int k)
 void	print_error(char *str)
 {
 	printf("minishell: %s: command not found\n", str);
+	g_var.exit_code = 127;
 }

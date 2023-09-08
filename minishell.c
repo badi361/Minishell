@@ -70,8 +70,8 @@ int	main(int ac, char **av, char **env)
 	malloc_env(env);
 	while (1)
 	{
-		g_var.str = readline("minishell$ ");
 		g_var.exit = 0;
+		g_var.str = readline("minishell$ ");
 		if (!g_var.str)
 		{
 			write(1, "\033[2D", 4); // 2D iki satır kaydır. \033 esc yi temsil eder.
@@ -97,12 +97,12 @@ void	search_on_env(int k, int t)
 	flag = 0;
 	i = 0;
 	if (access(g_var.cmds[k]->str[0], 0) == 0)
-	{
-		flag = 1;
 		execve(g_var.cmds[k]->str[0], g_var.cmds[k]->str, g_var.env);
+	else if (t == 0)
+	{
+		no_such(g_var.cmds[k]->str[0]);
+		flag = 1;
 	}
-	else if (t == 0 && flag == 0)
-		printf("minishell: %s: No such file or directory\n", g_var.cmds[k]->str[0]);
 	while (g_var.env_path[i] && flag == 0)
 	{
 		str = ft_strjoin(g_var.env_path[i], "/");
@@ -116,7 +116,10 @@ void	search_on_env(int k, int t)
 		i++;
 	}
 	if (flag == 0)
-		printf("minishell: %s: command not found\n", g_var.cmds[k]->str[0]);
+	{
+		print_error(g_var.cmds[k]->str[0]);
+		exit(g_var.exit_code);
+	}
 }
 
 void	leaks_destroyer(void)
@@ -155,18 +158,4 @@ void	signal_handle(int signal)
 		write(1, "\033[A", 3);
 		ioctl(0, TIOCSTI, "\n");
 	}
-}
-
-int ft_strcmp(char *s1, char *s2)
-{
-	int	i;
-
-	i = 0;
-	while ((s1[i] != '\0' || s2[i] != '\0'))
-	{
-		if (s1[i] != s2[i])
-			return (((unsigned char *)s1)[i] - ((unsigned char *)s2)[i]);
-		i++;
-	}
-	return (0);
 }

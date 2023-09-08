@@ -100,7 +100,7 @@ void	search_cmd_v2(int result, int i) // fork işlemi ile child process oluştur
 			t = split_env();
 			search_on_env(i, t);
 		}
-			exit(0);
+		exit(0);
 	}
 }
 

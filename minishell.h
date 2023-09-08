@@ -22,7 +22,6 @@ typedef struct pipe_var
 	char 	**str;
 	int		f_in;
 	int		f_out;
-	int		size;
 
 }			pipe_list;
 
@@ -39,7 +38,6 @@ struct s_var
 	link_list 	*list;
 	char		*str;
 	int			exit_code;
-	int			list_size;
 	int			pipe_count;
 	int			**pipe;
 	char		***string_3;
@@ -75,7 +73,6 @@ int			rdr_pipe_check(void);
 int			rdr_pipe_check_v2(void);
 int			rdr_pipe_return_v2(char *c);
 int			rdr_pipe_check_v3(void);
-int			link_lstsize(link_list *lst);
 int			pipe_check(void);
 void		rdr_flag(void);
 void		pipe_init(void);
@@ -119,7 +116,7 @@ void		ft_unset(int i);
 char		*find_equal_v3(char *str);
 int			find_on_env(int i, int k);
 int			find_on_export(int i, int k);
-int			rdr_init(void);
+void		rdr_init(void);
 void		dup_func(int i);
 void		close_fd(void);
 void		ft_here_doc(char *data, int k);
@@ -133,4 +130,5 @@ void		cd_helper(char *str);
 void		cd_helper_v2(char *str);
 void		fd_error(int fd, char *str);
 int			ft_strcmp(char *s1, char *s2);
+void		no_such(char *str);
 #endif

@@ -76,7 +76,7 @@ char	*find_equal_v3(char *str)
 	return (result);
 }
 
-int	rdr_init(void)
+void	rdr_init(void)
 {
 	link_list *tmp;
 	int	fd;
@@ -101,7 +101,6 @@ int	rdr_init(void)
 		{
 			fd = open(tmp->content, O_CREAT | O_APPEND | O_RDWR, 0777);
 			g_var.cmds[k]->f_out = fd;
-			g_var.cmds[k]->f_in = fd;
 		}
 		if (tmp->flag == 'h')
 			ft_here_doc(tmp->content, k);
@@ -111,11 +110,10 @@ int	rdr_init(void)
 		{
 			g_var.cmds[k]->f_out = -1;
 			fd_error(fd, tmp->content);
-			return (1);
+			return ;
 		}
 		tmp = tmp->next;
 	}
-	return (0);
 }
 
 void	close_fd(void)
@@ -142,6 +140,8 @@ void	close_fd(void)
 	while (i <= g_var.pipe_count)
 	{
 		waitpid(g_var.pid[i], &g_var.exit_code, 0);
+		if (WIFEXITED(g_var.exit_code)) // child process başarıyla tamamlandıysa true döner
+			g_var.exit_code = WEXITSTATUS(g_var.exit_code); // çıkış kodunu alıyor ve aktarıyor
 		i++;
 	}
 	unlink_to_hd();
@@ -150,10 +150,19 @@ void	close_fd(void)
 void	fd_error(int fd, char *str)
 {
 	if (fd == -1)
+	{
 		printf("minishell: %s: No such file or directory\n", str);
+		g_var.exit_code = 1;
+	}
 	else
 	{
 		printf("minishell: syntax error near unexpected token `%s'\n", str);
 		g_var.exit_code = 258;
 	}
+}
+
+void	no_such(char *str)
+{
+	printf("minishell: %s: No such file or directory\n", str);
+	g_var.exit_code = 127;
 }

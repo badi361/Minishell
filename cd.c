@@ -103,7 +103,7 @@ void	cd_next(char *str, char *next)
 	}
 	ktm[i] = '\0';
 	if (chdir(ktm) != 0)
-		printf("minishell: cd: %s: No such file or directory\n", next);
+		no_such(next);
 	else
 		cd_helper_v2(ktm);
 	free(ktm);
