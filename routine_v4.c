@@ -1,40 +1,49 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   routine_v4.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bguzel <bguzel@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/09/09 18:39:51 by bguzel            #+#    #+#             */
+/*   Updated: 2023/09/09 21:03:19 by bguzel           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 int	split_env(void)
 {
-	int i;
-    int	k;
-	char **str;
-	int	t;
+	int		i;
+	int		k;
+	char	**str;
+	int		t;
 
-	i = 0;
+	i = -1;
 	k = find_path("PATH=");
 	if (k == -1)
 		return (0);
 	str = ft_split(&g_var.env[k][5], ':');
-	g_var.env_path = (char **)malloc(sizeof(char *) * (ft_strlen_v3(&g_var.env[k][5], ':') + 1));
-	while (i < ft_strlen_v3(&g_var.env[k][5], ':'))
+	g_var.env_path = (char **)malloc(sizeof(char *)
+			* (ft_strlen_v3(&g_var.env[k][5], ':') + 1));
+	while (++i < ft_strlen_v3(&g_var.env[k][5], ':'))
 	{
-		t = 0;
+		t = -1;
 		g_var.env_path[i] = malloc(sizeof(char) * ft_strlen(str[i]) + 1);
-		while (str[i][t])
-		{
+		while (str[i][++t])
 			g_var.env_path[i][t] = str[i][t];
-			t++;
-		}
 		free(str[i]);
 		g_var.env_path[i][t] = '\0';
-		i++;
 	}
 	free(str);
 	g_var.env_path[i] = NULL;
 	return (1);
 }
 
-void	search_cmd(void) //fork ekrana birşey yazdırmayan komutlara gitmeyecek. UNUTMA fork oluştur
+void	search_cmd(void)
 {
 	int	i;
-	int result;
+	int	result;
 
 	i = 0;
 	while (g_var.cmds[i])
@@ -85,9 +94,9 @@ int	agree_cmd(char *str, int i)
 		return (8);
 }
 
-void	ft_echo(int	i)
+void	ft_echo(int i)
 {
-	int result;
+	int	result;
 
 	if (just_echo(i) == 1)
 	{
@@ -96,10 +105,7 @@ void	ft_echo(int	i)
 	}
 	result = pass_nl(i);
 	if (g_var.cmds[i]->str[result] == NULL)
-	{
-		printf("\n");
 		return ;
-	}
 	while (g_var.cmds[i]->str[result])
 	{
 		printf("%s", g_var.cmds[i]->str[result]);
@@ -113,25 +119,10 @@ void	ft_echo(int	i)
 		g_var.nl_flag = 0;
 }
 
-int	just_echo(int i)
-{
-	int	k;
-	int counter;
-
-	counter = 0;
-	k = 0;
-	while (g_var.cmds[i]->str[k])
-	{
-		k++;
-		counter++;
-	}
-	return (counter);
-}
-
 int	pass_nl(int k)
 {
-	int i;
-	int l;
+	int	i;
+	int	l;
 
 	l = 1;
 	while (g_var.cmds[k]->str[l])

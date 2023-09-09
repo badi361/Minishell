@@ -1,8 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   routine_v3.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bguzel <bguzel@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/09/09 18:37:57 by bguzel            #+#    #+#             */
+/*   Updated: 2023/09/09 18:39:33 by bguzel           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-void	cmd_init_help(void) // 3 boyutlu bir dizi oluşturup içine komutları yerleştirdim. +2 ler NUll ve \0 lar için
+void	cmd_init_help(void)
 {
-	link_list 	*tmp;
+	t_list		*tmp;
 	int			i;
 
 	tmp = g_var.list;
@@ -18,9 +30,9 @@ void	cmd_init_help(void) // 3 boyutlu bir dizi oluşturup içine komutları yerl
 	g_var.string_3[i] = NULL;
 }
 
-void	pipe_init(void) // pipe ların sayısını buldum ve pipe lara input ve outputları yerleştirdim. pipe fonksiyonu(hazır fonksiyon) pipe dan öncesinin verisini inputa sonrasını outputa atıyor.
+void	pipe_init(void)
 {
-	link_list 	*tmp;
+	t_list		*tmp;
 	int			len;
 	int			i;
 
@@ -46,8 +58,8 @@ void	pipe_init(void) // pipe ların sayısını buldum ve pipe lara input ve out
 
 int	arg_count(void)
 {
-	link_list	*tmp;
-	int			len;
+	t_list	*tmp;
+	int		len;
 
 	len = 0;
 	tmp = g_var.list;
@@ -56,13 +68,13 @@ int	arg_count(void)
 		if (tmp->flag == 'b')
 			len++;
 		if (tmp->flag == '|')
-			break;
+			break ;
 		tmp = tmp->next;
 	}
 	return (len);
 }
 
-void	get_arg(int	*k, link_list **tmp)
+void	get_arg(int	*k, t_list **tmp)
 {
 	int	i;
 

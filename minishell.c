@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bguzel <bguzel@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/09/09 16:38:00 by bguzel            #+#    #+#             */
+/*   Updated: 2023/09/09 21:54:22 by bguzel           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 void	malloc_env(char **env)
@@ -65,6 +77,7 @@ char	*handle_regular(char *str, int *index)
 int	main(int ac, char **av, char **env)
 {
 	int	result;
+
 	(void)ac;
 	(void)av;
 	malloc_env(env);
@@ -74,8 +87,8 @@ int	main(int ac, char **av, char **env)
 		g_var.str = readline("minishell$ ");
 		if (!g_var.str)
 		{
-			write(1, "\033[2D", 4); // 2D iki satır kaydır. \033 esc yi temsil eder.
-			write(1, "\033[0mexit\n", 9); // [0 terminalin renklerinin varsayılan haline dönemsini sağlar.
+			write(1, "\033[2D", 4);
+			write(1, "\033[0mexit\n", 9); 
 			exit(0);
 		}
 		add_history(g_var.str);
@@ -84,18 +97,17 @@ int	main(int ac, char **av, char **env)
 			leaks_destroyer();
 		else if (result != 1)
 			free(g_var.str);
-		//system("leaks minishell");
 	}
 }
 
 void	search_on_env(int k, int t)
 {
-	char *str;
-	int i;
-	int	flag;
+	char	*str;
+	int		i;
+	int		flag;
 
 	flag = 0;
-	i = 0;
+	i = -1;
 	if (access(g_var.cmds[k]->str[0], 0) == 0)
 		execve(g_var.cmds[k]->str[0], g_var.cmds[k]->str, g_var.env);
 	else if (t == 0)
@@ -103,7 +115,7 @@ void	search_on_env(int k, int t)
 		no_such(g_var.cmds[k]->str[0]);
 		flag = 1;
 	}
-	while (g_var.env_path[i] && flag == 0)
+	while (g_var.env_path[++i] && flag == 0)
 	{
 		str = ft_strjoin(g_var.env_path[i], "/");
 		str = ft_strjoin(str, g_var.cmds[k]->str[0]);
@@ -113,49 +125,6 @@ void	search_on_env(int k, int t)
 			execve(str, g_var.cmds[k]->str, g_var.env);
 		}
 		free(str);
-		i++;
 	}
-	if (flag == 0)
-	{
-		print_error(g_var.cmds[k]->str[0]);
-		exit(g_var.exit_code);
-	}
-}
-
-void	leaks_destroyer(void)
-{
-	int	i;
-	 if (g_var.pid)
-	 	free(g_var.pid);
-	i = 0;
-	if (g_var.cmds)
-	{
-		while (g_var.cmds[i])
-		{
-			free(g_var.cmds[i]);
-			i++;
-		}
-		free(g_var.cmds);
-	}
-	i = -1;
-	if (g_var.env_path)
-	{
-		while (g_var.env_path[++i])
-			free(g_var.env_path[i]);
-		free(g_var.env_path);
-	}
-	if (g_var.str)
-		free(g_var.str);
-	leaks_destroyer_v2();
-}
-
-void	signal_handle(int signal)
-{
-	if (signal == SIGINT)
-	{
-		g_var.hd_flag = 2;
-		g_var.exit = 1;
-		write(1, "\033[A", 3);
-		ioctl(0, TIOCSTI, "\n");
-	}
+	execve_helper(flag, g_var.cmds[k]->str[0]);
 }

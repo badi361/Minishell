@@ -1,10 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   routine_v8.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bguzel <bguzel@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/09/09 20:24:28 by bguzel            #+#    #+#             */
+/*   Updated: 2023/09/09 20:33:57 by bguzel           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 void	refresh_env(int index)
 {
-	int	i;
-	char **result;
-	int	k;
+	int		i;
+	char	**result;
+	int		k;
 
 	k = 0;
 	if (index == -1)
@@ -30,9 +42,9 @@ void	refresh_env(int index)
 
 void	refresh_export(int index)
 {
-	int	i;
-	char **result;
-	int	k;
+	int		i;
+	char	**result;
+	int		k;
 
 	k = 0;
 	if (index == -1)
@@ -58,9 +70,9 @@ void	refresh_export(int index)
 
 char	*find_equal_v3(char *str)
 {
-	int	size;
-	char *result;
-	int	i;
+	int		size;
+	char	*result;
+	int		i;
 
 	size = 0;
 	i = 0;
@@ -78,12 +90,12 @@ char	*find_equal_v3(char *str)
 
 void	rdr_init(void)
 {
-	link_list *tmp;
-	int	fd;
+	t_list	*tmp;
+	int		fd;
+	int		k;
 
 	fd = 0;
 	tmp = g_var.list;
-	int	k;
 	k = 0;
 	while (tmp)
 	{
@@ -97,21 +109,8 @@ void	rdr_init(void)
 			fd = open(tmp->content, O_CREAT | O_TRUNC | O_RDWR, 0777);
 			g_var.cmds[k]->f_out = fd;
 		}
-		if (tmp->flag == 'r')
-		{
-			fd = open(tmp->content, O_CREAT | O_APPEND | O_RDWR, 0777);
-			g_var.cmds[k]->f_out = fd;
-		}
-		if (tmp->flag == 'h')
-			ft_here_doc(tmp->content, k);
-		if (tmp->flag == '|')
-			k++;
-		if (fd == -1)
-		{
-			g_var.cmds[k]->f_out = -1;
-			fd_error(fd, tmp->content);
+		if (rdr_init_help(tmp, k, fd))
 			return ;
-		}
 		tmp = tmp->next;
 	}
 }
@@ -120,49 +119,26 @@ void	close_fd(void)
 {
 	int	i;
 
-	i = 0;
-	while (i <= g_var.pipe_count)
+	i = -1;
+	while (++i <= g_var.pipe_count)
 	{
 		if (g_var.cmds[i]->f_in > 1)
 			close(g_var.cmds[i]->f_in);
 		if (g_var.cmds[i]->f_out > 1)
 			close(g_var.cmds[i]->f_out);
-		i++;
 	}
-	i = 0;
-	while (i < g_var.pipe_count)
+	i = -1;
+	while (++i < g_var.pipe_count)
 	{
 		close(g_var.pipe[i][0]);
 		close(g_var.pipe[i][1]);
-		i++;
 	}
-	i = 0;
-	while (i <= g_var.pipe_count)
+	i = -1;
+	while (++i <= g_var.pipe_count)
 	{
 		waitpid(g_var.pid[i], &g_var.exit_code, 0);
-		if (WIFEXITED(g_var.exit_code)) // child process başarıyla tamamlandıysa true döner
-			g_var.exit_code = WEXITSTATUS(g_var.exit_code); // çıkış kodunu alıyor ve aktarıyor
-		i++;
+		if (WIFEXITED(g_var.exit_code))
+			g_var.exit_code = WEXITSTATUS(g_var.exit_code);
 	}
 	unlink_to_hd();
-}
-
-void	fd_error(int fd, char *str)
-{
-	if (fd == -1)
-	{
-		printf("minishell: %s: No such file or directory\n", str);
-		g_var.exit_code = 1;
-	}
-	else
-	{
-		printf("minishell: syntax error near unexpected token `%s'\n", str);
-		g_var.exit_code = 258;
-	}
-}
-
-void	no_such(char *str)
-{
-	printf("minishell: %s: No such file or directory\n", str);
-	g_var.exit_code = 127;
 }

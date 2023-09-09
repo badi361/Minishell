@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bguzel <bguzel@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/09/09 18:12:12 by bguzel            #+#    #+#             */
+/*   Updated: 2023/09/09 21:20:31 by bguzel           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
@@ -12,18 +24,18 @@
 
 typedef struct z_list
 {
-    char	*content;
-	struct z_list *next;
-	char	flag;	
-}			link_list;
+	char			*content;
+	struct z_list	*next;
+	char			flag;
+}			t_list;
 
 typedef struct pipe_var
 {
-	char 	**str;
+	char	**str;
 	int		f_in;
 	int		f_out;
 
-}			pipe_list;
+}			t_pipe_list;
 
 struct s_var
 {
@@ -31,11 +43,11 @@ struct s_var
 	char		**export;
 	int			nl_flag;
 	pid_t		*pid;
-	pipe_list	**cmds;
+	t_pipe_list	**cmds;
 	char		**env;
 	char		**env_path;
 	int			env_size;
-	link_list 	*list;
+	t_list		*list;
 	char		*str;
 	int			exit_code;
 	int			pipe_count;
@@ -49,15 +61,15 @@ struct s_var
 void		malloc_env(char **env);
 int			routine(char *str);
 int			lexer_parsel(char *str);
-void		link_lstclear(link_list **lst);
-void		link_lstdelone(link_list *lst);
+void		link_lstclear(t_list **lst);
+void		link_lstdelone(t_list *lst);
 int			check_quote(char *str);
 int			parsel_defined(int *i, char c);
 int			ft_strlen_v1(const char *s);
 char		*ft_strdup_v2(char *str, int start, int end);
-void		link_lstadd_back(link_list **lst, link_list *new);
-link_list	*link_lstlast(link_list *lst);
-link_list	*link_lstnew(char *content, char flag);
+void		link_lstadd_back(t_list **lst, t_list *new);
+t_list		*link_lstlast(t_list *lst);
+t_list		*link_lstnew(char *content, char flag);
 int			is_it_special(char c);
 char		*ft_strjoin_v3(char *s1, char *s2);
 char		*ft_strdup_v3(char *str, int *start, char end);
@@ -65,7 +77,8 @@ char		*only_dolar(void);
 int			ft_strncmp_v3(const char *s1, const char *s2, size_t n);
 char		*handle_regular(char *str, int *index);
 void		undefined_parsel(int *i);
-char		*get_dolar(char *str, char c);
+char		*get_dolar(char *str, char c, int i);
+int			rdr_pipe_check_v4(t_list *tmp);
 char		*get_env_var(char *str, int *i, int *j, char **env);
 int			ft_strlen_v2(char *str, char q, int i);
 int			rdr_pipe_return(void);
@@ -78,7 +91,7 @@ void		rdr_flag(void);
 void		pipe_init(void);
 int			arg_count(void);
 void		cmd_init_help(void);
-void		get_arg(int	*k, link_list **tmp);
+void		get_arg(int	*k, t_list **tmp);
 void		cmd_init(void);
 void		input_to_place(void);
 int			ft_strlen_v3(char *s, char c);
@@ -87,11 +100,11 @@ int			split_env(void);
 void		search_on_env(int k, int t);
 int			agree_cmd(char *str, int i);
 void		search_cmd(void);
-void		ft_echo(int	i);
+void		ft_echo(int i);
 int			just_echo(int i);
 int			pass_nl(int k);
 int			str_is_digit(char *str);
-void		ft_exit(int	i);
+void		ft_exit(int i);
 void		ft_env(void);
 void		ft_pwd(void);
 void		ft_cd(int k);
@@ -107,7 +120,7 @@ char		*add_quote_v2(char *str);
 int			find_equal_v2(char *str);
 void		new_export(int index, int k, int l);
 char		*add_quote(int k, int i);
-void		new_env(int	index, int k, int l);
+void		new_env(int index, int k, int l);
 int			find_path_v2(char *str);
 void		search_cmd_v2(int result, int i);
 void		refresh_env(int index);
@@ -122,7 +135,7 @@ void		close_fd(void);
 void		ft_here_doc(char *data, int k);
 void		write_on_fd(char *str, int fd);
 void		unlink_to_hd(void);
-void		close_fd_2(pipe_list *cmds);
+void		close_fd_2(t_pipe_list *cmds);
 void		leaks_destroyer(void);
 void		leaks_destroyer_v2(void);
 void		signal_handle(int signal);
@@ -131,4 +144,11 @@ void		cd_helper_v2(char *str);
 void		fd_error(int fd, char *str);
 int			ft_strcmp(char *s1, char *s2);
 void		no_such(char *str);
+void		here_doc_helper(int fd, char *data, char *str);
+void		execve_helper(int flag, char *str);
+void		exit_helper(int i);
+void		cd_helper_v3(int k, char *str);
+int			rdr_init_help(t_list *tmp, int k, int fd);
+int			rdr_pipe_ctrl_v2(t_list *tmp);
+int			rdr_pipe_ctrl(t_list *tmp);
 #endif

@@ -1,10 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   check.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bguzel <bguzel@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/09/09 15:43:59 by bguzel            #+#    #+#             */
+/*   Updated: 2023/09/09 21:14:14 by bguzel           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-int	check_quote(char *str) // tırnak açıldığında kapanması da lazım bunu kontrol ediyorum.
+int	check_quote(char *str)
 {
-	int	i;
-	char c;
-	int flag;
+	int		i;
+	char	c;
+	int		flag;
 
 	flag = 0;
 	i = 0;
@@ -28,9 +40,9 @@ int	check_quote(char *str) // tırnak açıldığında kapanması da lazım bunu
 	return (0);
 }
 
-int	rdr_pipe_check(void) // hata kontrolleri
+int	rdr_pipe_check(void)
 {
-	link_list *tmp;
+	t_list	*tmp;
 
 	tmp = g_var.list;
 	if (!tmp)
@@ -48,51 +60,49 @@ int	rdr_pipe_check(void) // hata kontrolleri
 	if (tmp->content[0] == '>' && tmp->content[1] == '>')
 		if (tmp->next == NULL)
 			return (rdr_pipe_return());
-	if (tmp->content[0] == '<' && tmp->content[1] == '\0' && tmp->next->content[0] == '>' && tmp->next->content[1] == '\0')
-	{
-		tmp = tmp->next;
-		if (tmp->next != NULL)
-		{
-			if (tmp->next->flag == '<' || tmp->next->flag == '>')
-				return (rdr_pipe_return_v2(tmp->next->content));
-		}
-		else
-			return(rdr_pipe_return());
-	}
-	if (tmp->content[0] == '<' || tmp->content[1] == '<')
-		if (tmp->next != NULL)
-			if (tmp->next->flag == '<' || tmp->next->flag == '>')
-				return (rdr_pipe_return_v2(tmp->next->content));
-	if (tmp->content[0] == '>' && tmp->content[1] == '\0' && tmp->next->content[0] == '<' && tmp->next->content[1] == '\0')
-	{
-		tmp = tmp->next;
-		if (tmp->next != NULL)
-		{
-			if (tmp->next->flag == '<' || tmp->next->flag == '>')
-				return (rdr_pipe_return_v2(tmp->next->content));
-		else
-			return (rdr_pipe_return());
-		}
-	}
+	if (rdr_pipe_ctrl(tmp) != 0)
+		return (1);
 	return (0);
 }
 
-
-int	rdr_pipe_check_v3(void) // hata kontrolleri
+int	rdr_pipe_check_v3(void)
 {
-	link_list *tmp;
+	t_list	*tmp;
+
 	tmp = g_var.list;
 	if (tmp)
 		if (tmp->flag == '|')
 			return (rdr_pipe_return_v2("|"));
 	while (tmp)
 	{
-		if (tmp->flag == '<' && (tmp->next->flag == '>' || tmp->next->flag == '<'))
-			return (rdr_pipe_return_v2("<"));
-		else if (tmp->flag == '>' && (tmp->next->flag == '<' || tmp->next->flag == '>'))
-			return (rdr_pipe_return_v2(">"));
+		if (tmp->flag == '<')
+		{
+			if (tmp->next != NULL)
+			{
+				if (tmp->next->flag == '>' || tmp->next->flag == '<')
+					return (rdr_pipe_return_v2("<"));
+			}
+			else
+				return (rdr_pipe_return());
+		}
+		if (rdr_pipe_check_v4(tmp) != 0)
+			return (1);
 		tmp = tmp->next;
 	}
 	return (0);
 }
 
+int	rdr_pipe_check_v4(t_list *tmp)
+{
+	if (tmp->flag == '>')
+	{
+		if (tmp->next != NULL)
+		{
+			if (tmp->next->flag == '<' || tmp->next->flag == '>')
+				return (rdr_pipe_return_v2(">"));
+		}
+		else
+			return (rdr_pipe_return());
+	}
+	return (0);
+}

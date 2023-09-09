@@ -1,11 +1,23 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils3.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bguzel <bguzel@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/09/09 20:36:39 by bguzel            #+#    #+#             */
+/*   Updated: 2023/09/09 20:37:41 by bguzel           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 int	ft_strlen_v3(char *s, char c)
 {
 	int	i;
-    int k;
+	int	k;
 
-    k = 0;
+	k = 0;
 	i = 0;
 	while (s[i])
 	{
@@ -48,7 +60,7 @@ int	find_path(char *str)
 int	str_is_digit(char *str)
 {
 	int	i;
-	int k;
+	int	k;
 
 	k = 0;
 	i = 0;
@@ -65,9 +77,9 @@ int	str_is_digit(char *str)
 
 char	*find_equal(char *str)
 {
-	int	size;
-	char *result;
-	int	i;
+	int		size;
+	char	*result;
+	int		i;
 
 	size = 0;
 	i = 0;

@@ -1,10 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   routine_v7.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bguzel <bguzel@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/09/09 20:10:48 by bguzel            #+#    #+#             */
+/*   Updated: 2023/09/09 20:23:59 by bguzel           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 char	*add_quote_v2(char *str)
 {
-	char *result;
-	int	i;
-	int	l;
+	char	*result;
+	int		i;
+	int		l;
 
 	i = 0;
 	result = malloc(sizeof(char) * (ft_strlen(str) + 3));
@@ -30,7 +42,7 @@ char	*add_quote_v2(char *str)
 int	find_equal_v2(char *str)
 {
 	int	i;
-	int flag;
+	int	flag;
 
 	flag = 0;
 	i = 0;
@@ -49,10 +61,10 @@ int	find_equal_v2(char *str)
 		return (1);
 }
 
-void	new_env(int	index, int k, int l)
+void	new_env(int index, int k, int l)
 {
-	int	i;
-	char **str;
+	int		i;
+	char	**str;
 
 	i = 0;
 	if (index == -1)
@@ -76,9 +88,10 @@ void	new_env(int	index, int k, int l)
 	}
 }
 
-void	search_cmd_v2(int result, int i) // fork işlemi ile child process oluşturuluyor. main process deki işlemleri child process kopyalar. fork la child process oluştuğunda child process de dönüş değeri yani (0) olacaktir. dolayısıyla child process if bloğuna girecek. main giremeyecek ve i yi arttıracak. main child ı ne yapacak dize izler.
+void	search_cmd_v2(int result, int i)
 {
 	int	t;
+
 	g_var.pid[i] = fork();
 	if (g_var.pid[i] == 0)
 	{
@@ -107,8 +120,8 @@ void	search_cmd_v2(int result, int i) // fork işlemi ile child process oluştur
 void	ft_unset(int i)
 {
 	int	k;
-	int index1;
-	int index2;
+	int	index1;
+	int	index2;
 
 	k = 1;
 	while (g_var.cmds[i]->str[k])
@@ -118,60 +131,5 @@ void	ft_unset(int i)
 		refresh_env(index1);
 		refresh_export(index2);
 		k++;
-	}
-}
-
-int	find_on_env(int i, int k)
-{
-	int	t;
-	char *str;
-
-	t = 0;
-	while (g_var.env[t])
-	{
-		str = find_equal_v3(g_var.env[t]);
-		if (!ft_strncmp_v3(str, g_var.cmds[i]->str[k], ft_strlen(str)))
-		{
-			free(str);
-			return (t);
-		}
-		free(str);
-		t++;
-	}
-	return (-1);
-}
-
-int	find_on_export(int i, int k)
-{
-	int	t;
-	char *str;
-
-	t = 0;
-	while (g_var.export[t])
-	{
-		str = find_equal_v3(g_var.export[t]);
-		if (!ft_strncmp_v3(str, g_var.cmds[i]->str[k], ft_strlen(str)))
-		{
-			free(str);
-			return (t);
-		}
-		free(str);
-		t++;
-	}
-	return (-1);
-}
-
-void	close_fd_2(pipe_list *cmds)
-{
-	int	i;
-
-	i = 0;
-	while (i < g_var.pipe_count)
-	{
-		if (cmds->f_in != g_var.pipe[i][0])
-			close(g_var.pipe[i][0]);
-		if (cmds->f_out != g_var.pipe[i][1])
-			close(g_var.pipe[i][1]);
-		i++;
 	}
 }

@@ -1,8 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   list_foncs.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bguzel <bguzel@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/09/09 16:36:56 by bguzel            #+#    #+#             */
+/*   Updated: 2023/09/09 18:16:33 by bguzel           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-void	link_lstclear(link_list **lst)
+void	link_lstclear(t_list **lst)
 {
-	link_list	*tmp;
+	t_list	*tmp;
 
 	if (!lst)
 	{
@@ -16,7 +28,7 @@ void	link_lstclear(link_list **lst)
 	}
 }
 
-void	link_lstdelone(link_list *lst)
+void	link_lstdelone(t_list *lst)
 {
 	if (!lst)
 		return ;
@@ -24,7 +36,7 @@ void	link_lstdelone(link_list *lst)
 	free(lst);
 }
 
-void	link_lstadd_back(link_list **lst, link_list *new)
+void	link_lstadd_back(t_list **lst, t_list *new)
 {
 	if (*lst == NULL)
 	{
@@ -34,7 +46,7 @@ void	link_lstadd_back(link_list **lst, link_list *new)
 	link_lstlast(*lst)->next = new;
 }
 
-link_list	*link_lstlast(link_list *lst)
+t_list	*link_lstlast(t_list *lst)
 {
 	if (lst == NULL)
 		return (NULL);
@@ -45,11 +57,11 @@ link_list	*link_lstlast(link_list *lst)
 	return (lst);
 }
 
-link_list	*link_lstnew(char *content, char flag)
+t_list	*link_lstnew(char *content, char flag)
 {
-	link_list	*str;
+	t_list	*str;
 
-	str = malloc(sizeof(link_list));
+	str = malloc(sizeof(t_list));
 	if (!str)
 		return (0);
 	str->content = content;

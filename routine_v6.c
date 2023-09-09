@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   routine_v6.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bguzel <bguzel@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/09/09 19:40:33 by bguzel            #+#    #+#             */
+/*   Updated: 2023/09/09 20:10:15 by bguzel           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 void	print_export(void)
@@ -30,12 +42,13 @@ void	print_export(void)
 
 void	ft_export(int k)
 {
-	int	i;
-	char *str;
+	int		i;
+	char	*str;
 
-	i = 1;
+	i = 0;
 	while (g_var.cmds[++k])
-		while (g_var.cmds[k]->str[i])
+	{
+		while (g_var.cmds[k]->str[++i])
 		{
 			if (ft_isalpha(g_var.cmds[k]->str[i][0]))
 			{
@@ -52,14 +65,14 @@ void	ft_export(int k)
 			else
 				printf("minishell: export: %s: not a valid identifier\n",
 					g_var.cmds[0]->str[i]);
-				i++;
 		}
+	}
 }
 
-void	new_export(int	index, int k, int l)
+void	new_export(int index, int k, int l)
 {
-	int	i;
-	char **str;
+	int		i;
+	char	**str;
 
 	i = 0;
 	if (index == -1)
@@ -86,11 +99,11 @@ void	new_export(int	index, int k, int l)
 
 char	*add_quote(int k, int i)
 {
-	int	t;
-	char *result;
+	int		t;
+	char	*result;
+	int		l;
 
 	t = 0;
-	int	l;
 	result = malloc(sizeof(char) * (ft_strlen(g_var.cmds[k]->str[i] + 3)));
 	while (g_var.cmds[k]->str[i][t] != '=')
 	{
@@ -113,7 +126,7 @@ char	*add_quote(int k, int i)
 
 void	leaks_destroyer_v2(void)
 {
-	int i;
+	int	i;
 	int	k;
 
 	i = -1;
@@ -132,8 +145,8 @@ void	leaks_destroyer_v2(void)
 			k = -1;
 			while (g_var.string_3[i][++k])
 				free(g_var.string_3[i][k]);
-		free(g_var.string_3[i]);
+			free(g_var.string_3[i]);
 		}
-	free(g_var.string_3);
+		free(g_var.string_3);
 	}
 }

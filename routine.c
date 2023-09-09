@@ -1,8 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   routine.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bguzel <bguzel@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/09/09 20:39:49 by bguzel            #+#    #+#             */
+/*   Updated: 2023/09/09 21:21:18 by bguzel           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-int	lexer_parsel(char *str) // < > | ysa ayrı bunlar değilse ayrı listelere atıyorum. parsel defined fonksiyonuna girmeyenlerin flagini 'b' yapıyorum
+int	lexer_parsel(char *str)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	g_var.str = ft_strtrim(str, " ");
@@ -44,38 +56,40 @@ int	parsel_defined(int *i, char c)
 	return (0);
 }
 
-void	undefined_parsel(int *i) // önce tırnak içinde mi kontrol ediyorum. sonrasında dolar var mı eğer varsa dolardan sonra yazılanın karşılığını env tan alıyorum. 
+void	undefined_parsel(int *i)
 {
-	int	k;
-	char *result;
+	int		k;
+	char	*result;
+	int		t;
 
 	result = NULL;
 	k = *i;
 	while (g_var.str[k] && !is_it_special(g_var.str[k]))
 	{
+		t = 0;
 		if (g_var.str[k] == 34 || g_var.str[k] == 39)
 		{
 			k++;
 			result = ft_strjoin_v3(result, get_dolar
-					(ft_strdup_v3(g_var.str, &k, g_var.str[k - 1]), g_var.str[k - 1]));
+					(ft_strdup_v3(g_var.str, &k, g_var.str[k - 1]),
+						g_var.str[k - 1], t));
 		}
 		else
 			result = ft_strjoin_v3(result,
-					get_dolar(handle_regular(g_var.str, &k), 0));
+					get_dolar(handle_regular(g_var.str, &k), 0, t));
 	}
 	link_lstadd_back(&g_var.list, link_lstnew(result, 'b'));
 	*i = k;
 }
 
-char	*get_dolar(char *str, char c)
+char	*get_dolar(char *str, char c, int i)
 {
-	char 	*result;
+	char	*result;
 	char	*env;
-	int		i;
 	int		j;
+
 	if (c == 39)
 		return (str);
-	i = 0;
 	result = NULL;
 	while (str[i])
 	{
