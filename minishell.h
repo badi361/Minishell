@@ -6,7 +6,7 @@
 /*   By: bguzel <bguzel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/09 18:12:12 by bguzel            #+#    #+#             */
-/*   Updated: 2023/09/09 21:20:31 by bguzel           ###   ########.fr       */
+/*   Updated: 2023/09/10 15:06:54 by bguzel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ struct s_var
 	char		*path;
 	int			hd_flag;
 	int			exit;
+	int			ctrl_c;
 }	g_var;
 
 void		malloc_env(char **env);
@@ -148,7 +149,7 @@ void		here_doc_helper(int fd, char *data, char *str);
 void		execve_helper(int flag, char *str);
 void		exit_helper(int i);
 void		cd_helper_v3(int k, char *str);
-int			rdr_init_help(t_list *tmp, int k, int fd);
+int			rdr_init_help(t_list *tmp, int *k, int fd);
 int			rdr_pipe_ctrl_v2(t_list *tmp);
 int			rdr_pipe_ctrl(t_list *tmp);
 #endif

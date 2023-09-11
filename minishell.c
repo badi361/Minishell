@@ -6,7 +6,7 @@
 /*   By: bguzel <bguzel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/09 16:38:00 by bguzel            #+#    #+#             */
-/*   Updated: 2023/09/09 21:54:22 by bguzel           ###   ########.fr       */
+/*   Updated: 2023/09/10 13:02:41 by bguzel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ int	routine(char *str)
 	if (g_var.exit != 1)
 		search_cmd();
 	close_fd();
+	unlink_to_hd();
 	free(str);
 	return (0);
 }
@@ -84,6 +85,7 @@ int	main(int ac, char **av, char **env)
 	while (1)
 	{
 		g_var.exit = 0;
+		g_var.ctrl_c = 0;
 		g_var.str = readline("minishell$ ");
 		if (!g_var.str)
 		{
@@ -94,6 +96,8 @@ int	main(int ac, char **av, char **env)
 		add_history(g_var.str);
 		result = routine(g_var.str);
 		if (g_var.exit != 1 && g_var.str[0] && result == 0) 
+			leaks_destroyer();
+		else if (g_var.ctrl_c == 2)
 			leaks_destroyer();
 		else if (result != 1)
 			free(g_var.str);

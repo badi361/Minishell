@@ -6,7 +6,7 @@
 /*   By: bguzel <bguzel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/09 20:24:28 by bguzel            #+#    #+#             */
-/*   Updated: 2023/09/09 20:33:57 by bguzel           ###   ########.fr       */
+/*   Updated: 2023/09/10 15:05:53 by bguzel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ void	rdr_init(void)
 			fd = open(tmp->content, O_CREAT | O_TRUNC | O_RDWR, 0777);
 			g_var.cmds[k]->f_out = fd;
 		}
-		if (rdr_init_help(tmp, k, fd))
+		if (rdr_init_help(tmp, &k, fd))
 			return ;
 		tmp = tmp->next;
 	}
@@ -139,6 +139,7 @@ void	close_fd(void)
 		waitpid(g_var.pid[i], &g_var.exit_code, 0);
 		if (WIFEXITED(g_var.exit_code))
 			g_var.exit_code = WEXITSTATUS(g_var.exit_code);
+		if (g_var.exit_code == 2)
+			g_var.ctrl_c = g_var.exit_code;
 	}
-	unlink_to_hd();
 }

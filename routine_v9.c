@@ -6,7 +6,7 @@
 /*   By: bguzel <bguzel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/09 15:31:20 by bguzel            #+#    #+#             */
-/*   Updated: 2023/09/09 20:36:04 by bguzel           ###   ########.fr       */
+/*   Updated: 2023/09/10 12:38:06 by bguzel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,17 @@ void	cd_helper_v2(char *str)
 	int	result;
 
 	result = find_path("PWD");
-	free(g_var.env[result]);
-	free(g_var.export[result]);
-	g_var.env[result] = ft_strjoin("PWD", str);
-	g_var.export[result] = ft_strjoin("PWD", str);
-	chdir(str);
-	free(str);
+	if (result != -1)
+	{
+		free(g_var.env[result]);
+		free(g_var.export[result]);
+		g_var.env[result] = ft_strjoin("PWD=", str);
+		g_var.export[result] = ft_strjoin("PWD=", str);
+		chdir(str);
+		free(str);
+	}
+	else 
+		free(str);
 }
 
 void	signal_handle(int signal)

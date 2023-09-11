@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bguzel <bguzel@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yturgut <yturgut@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/09 15:45:13 by bguzel            #+#    #+#             */
-/*   Updated: 2023/09/09 16:34:50 by bguzel           ###   ########.fr       */
+/*   Updated: 2023/09/10 15:27:41 by yturgut          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,24 +72,23 @@ void	here_doc_helper(int fd, char *data, char *str)
 		str = readline("> ");
 		if (!str)
 		{
-			free(str);
 			write(1, "\033[2D", 5);
 			break ;
 		}
 		if (g_var.hd_flag == 2)
 		{
-			free(str);
+			g_var.hd_flag = 1;
+			unlink_to_hd();
+			g_var.hd_flag = 2;
 			break ;
 		}
 		if (!ft_strncmp(str, "> ", ft_strlen(str)))
 			write(fd, "\n", 1);
 		else if (!ft_strcmp(data, str))
-		{
-			free(str);
 			break ;
-		}
 		else
 			write_on_fd(str, fd);
 		free(str);
 	}
+	free(str);
 }

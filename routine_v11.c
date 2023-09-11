@@ -6,7 +6,7 @@
 /*   By: bguzel <bguzel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/09 20:26:22 by bguzel            #+#    #+#             */
-/*   Updated: 2023/09/09 21:05:34 by bguzel           ###   ########.fr       */
+/*   Updated: 2023/09/10 15:07:44 by bguzel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,20 +32,20 @@ void	no_such(char *str)
 	g_var.exit_code = 127;
 }
 
-int	rdr_init_help(t_list *tmp, int k, int fd)
+int	rdr_init_help(t_list *tmp, int *k, int fd)
 {
 	if (tmp->flag == 'r')
 	{
 		fd = open(tmp->content, O_CREAT | O_APPEND | O_RDWR, 0777);
-		g_var.cmds[k]->f_out = fd;
+		g_var.cmds[*k]->f_out = fd;
 	}
 	if (tmp->flag == 'h')
-		ft_here_doc(tmp->content, k);
+		ft_here_doc(tmp->content, *k);
 	if (tmp->flag == '|')
-		k++;
+		*k += 1;
 	if (fd == -1)
 	{
-		g_var.cmds[k]->f_out = -1;
+		g_var.cmds[*k]->f_out = -1;
 		fd_error(fd, tmp->content);
 		return (1);
 	}

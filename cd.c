@@ -6,7 +6,7 @@
 /*   By: bguzel <bguzel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/09 15:26:38 by bguzel            #+#    #+#             */
-/*   Updated: 2023/09/09 15:41:35 by bguzel           ###   ########.fr       */
+/*   Updated: 2023/09/10 12:38:58 by bguzel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,8 +110,11 @@ void	cd_helper(char *str)
 	int	result;
 
 	result = find_path("OLDPWD");
-	free(g_var.env[result]);
-	free(g_var.export[result]);
-	g_var.env[result] = ft_strjoin("OLDPWD=", str);
-	g_var.export[result] = ft_strjoin("OLDPWD=", str);
+	if (result != -1)
+	{
+		free(g_var.env[result]);
+		free(g_var.export[result]);
+		g_var.env[result] = ft_strjoin("OLDPWD=", str);
+		g_var.export[result] = ft_strjoin("OLDPWD=", str);
+	}
 }
