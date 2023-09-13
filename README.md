@@ -23,20 +23,26 @@ $ cd minishell && make
 # To run the shell, simply execute the following command:
 $ ./minishell
 
-Features
+FEATURES
+
 Command execution
   * The shell supports executing external commands, built-in commands, and pipeline commands.
+
 ### Input/output redirection
   * The shell supports input/output redirection using the < and > characters.
+
 Signal handling
   * The shell handles the following signals:
 
   * SIGINT (Interrupt signal)
   * SIGQUIT (Quit signal)
+
 Environment variables
   * The shell supports creating, modifying, and deleting environment variables using the export and unset built-in commands.
+
 Command history
   * The shell supports command history using the readline library.
+
 Built-in commands
   * The shell supports the following built-in commands:
 
