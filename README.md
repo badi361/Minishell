@@ -47,7 +47,8 @@ Built-in commands
   * unset - deletes an environment variable
   * env - prints the environment variables
 Acknowledgments
-This project was inspired by the Unix shell, and was built using the following resources:
+
+  * This project was inspired by the Unix shell, and was built using the following resources:
 
   * The readline library documentation
   * The Bash shell documentation
