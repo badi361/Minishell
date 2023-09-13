@@ -15,7 +15,6 @@ Prerequisites
   * GNU readline
 
 Building
-
 # Clone the repository:
 $ git clone https://github.com/badi361/Minishell
 
