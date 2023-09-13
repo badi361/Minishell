@@ -48,7 +48,6 @@ Built-in commands
   * env - prints the environment variables
 
 Acknowledgments
-
   * This project was inspired by the Unix shell, and was built using the following resources:
 
   * The readline library documentation
