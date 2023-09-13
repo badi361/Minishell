@@ -54,8 +54,14 @@ Built-in commands
   * unset - deletes an environment variable
   * env - prints the environment variables
 
+
+
 Acknowledgments
   * This project was inspired by the Unix shell, and was built using the following resources:
 
   * The readline library documentation
   * The Bash shell documentation
+
+  <img width="801" alt="Ekran Resmi 2023-09-13 13 58 39" src="https://github.com/badi361/Minishell/assets/115088616/f298b85e-b68d-4dd1-bd6c-c6b398877777">
+
+
