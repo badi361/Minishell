@@ -1,6 +1,7 @@
 # 42 Minishell Project
 
 Minishell
+
 As the name implies, this project is about creating a simple shell in C, taking bash as a reference. Impementation of clasic bash written completely from scratch with Yusuf Anıl Turgut as part of 42 Ciriculum.
 
   * This custom shell has most of the features from original bash like custom enironment, builtins, pipes, multiple redirections, logical operators and parenthesis, signal and error      handling.
@@ -12,6 +13,7 @@ Prerequisites
   * GCC compiler
   * Make utility
   * GNU readline
+
 Building
 
 # Clone the repository:
