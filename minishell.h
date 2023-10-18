@@ -6,7 +6,7 @@
 /*   By: baran <baran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/09 18:12:12 by bguzel            #+#    #+#             */
-/*   Updated: 2023/10/18 16:31:31 by baran            ###   ########.fr       */
+/*   Updated: 2023/10/18 16:34:43 by baran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 # include <stdlib.h>
 # include <readline/readline.h>
 # include <readline/history.h>
-# include "LIBFT/libft.h"
+# include "FT_LIBFT/libft.h"
 
 typedef struct z_list
 {

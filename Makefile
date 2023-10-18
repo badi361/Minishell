@@ -2,7 +2,7 @@ SRCS		=		minishell.c check.c routine.c list_foncs.c utils.c utils2.c routine_v2.
 					routine_v4.c routine_v5.c cd.c routine_v6.c	routine_v7.c routine_v8.c here_doc.c routine_v9.c \
 					routine_v10.c routine_v11.c
 
-LIBFT		=		libft/libft.a
+LIBFT		=		FT_LIBFT/libft.a
 
 OBJS		=		$(SRCS:.c=.o)
 
@@ -17,17 +17,17 @@ RM			=		rm -rf
 all:		$(NAME)
 
 $(LIBFT):
-			make re -C ./libft
+			make re -C ./FT_LIBFT
 
 $(NAME):	$(OBJS) $(LIBFT)
-				$(CC) $(CFLAGS) -lreadline $(OBJS) libft/libft.a  -o $(NAME)
+				$(CC) $(CFLAGS) -lreadline $(OBJS) FT_LIBFT/libft.a  -o $(NAME)
 
 clean:
 				$(RM) $(OBJS)
 
 fclean:		clean
 				$(RM) $(NAME)
-			make fclean -C libft
+			make fclean -C FT_LIBFT
 
 re:			fclean all
 
