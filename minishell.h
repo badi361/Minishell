@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bguzel <bguzel@student.42.fr>              +#+  +:+       +#+        */
+/*   By: baran <baran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/09 18:12:12 by bguzel            #+#    #+#             */
-/*   Updated: 2023/09/10 15:06:54 by bguzel           ###   ########.fr       */
+/*   Updated: 2023/10/18 16:31:31 by baran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 # include <stdlib.h>
 # include <readline/readline.h>
 # include <readline/history.h>
-# include "libft/libft.h"
+# include "LIBFT/libft.h"
 
 typedef struct z_list
 {
